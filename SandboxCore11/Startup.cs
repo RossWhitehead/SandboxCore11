@@ -71,6 +71,8 @@ namespace SandboxCore11
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseStatusCodePages();
+
             app.UseStaticFiles();
 
             app.UseIdentity();
@@ -83,6 +85,9 @@ namespace SandboxCore11
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            //Populates the MusicStore sample data
+            SampleData.Seed(app.ApplicationServices).Wait();
         }
     }
 }
