@@ -9,8 +9,7 @@ namespace SandboxCore11.Controllers
 {
     public class HomeController : Controller
     {
-
-        public IActionResult Index(ApplicationDbContext db)
+        public IActionResult Index([FromServices]ApplicationDbContext db)
         {
             var projects = db.Projects.ToList();
             return View(projects);

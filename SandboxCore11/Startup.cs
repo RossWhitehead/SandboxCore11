@@ -49,6 +49,8 @@ namespace SandboxCore11
 
             services.AddMvc();
 
+            services.AddMemoryCache();
+
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
@@ -87,7 +89,7 @@ namespace SandboxCore11
             });
 
             //Populates the MusicStore sample data
-            SampleData.Seed(app.ApplicationServices).Wait();
+            //DbInitializer.Seed(app.ApplicationServices).Wait();
         }
     }
 }

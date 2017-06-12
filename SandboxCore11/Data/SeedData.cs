@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SandboxCore11.Data
 {
-    public static class SampleData
+    public static class DbInitializer
     {
         public static async Task Seed(IServiceProvider serviceProvider)
         {
@@ -16,10 +16,7 @@ namespace SandboxCore11.Data
                 var scopedServiceProvider = serviceScope.ServiceProvider;
                 var db = scopedServiceProvider.GetService<ApplicationDbContext>();
 
-                if (await db.Database.EnsureCreatedAsync())
-                {
-                    await InsertTestData(scopedServiceProvider);
-                }
+                await InsertTestData(scopedServiceProvider);
             }
         }
 
@@ -32,7 +29,7 @@ namespace SandboxCore11.Data
                 new Project { Name = "Project 3" }
             };
 
-            await AddOrUpdateAsync(scopedServiceProvider, p => p.ProjectId, projects);
+            await AddOrUpdateAsync(scopedServiceProvider, p => p.Name, projects);
         }
 
         // TODO [EF] This may be replaced by a first class mechanism in EF
