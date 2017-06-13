@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace SandboxCore11.Data.Migrations
 {
-    public partial class AddProject : Migration
+    public partial class AddInventoryItem : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,16 +18,16 @@ namespace SandboxCore11.Data.Migrations
                 table: "AspNetRoles");
 
             migrationBuilder.CreateTable(
-                name: "Projects",
+                name: "InventoryItems",
                 columns: table => new
                 {
-                    ProjectId = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Projects", x => x.ProjectId);
+                    table.PrimaryKey("PK_InventoryItems", x => x.Id);
                 });
 
             migrationBuilder.CreateIndex(
@@ -40,7 +40,7 @@ namespace SandboxCore11.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Projects");
+                name: "InventoryItems");
 
             migrationBuilder.DropIndex(
                 name: "RoleNameIndex",

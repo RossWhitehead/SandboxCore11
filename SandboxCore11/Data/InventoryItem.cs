@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace SandboxCore11.Data
 {
-    public class Project
+    public class InventoryItem
     {
-        public int ProjectId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
     }
 }

@@ -11,8 +11,7 @@ namespace SandboxCore11.Controllers
     {
         public IActionResult Index([FromServices]ApplicationDbContext db)
         {
-            var projects = db.Projects.ToList();
-            return View(projects);
+            return View();
         }
 
         public IActionResult About()

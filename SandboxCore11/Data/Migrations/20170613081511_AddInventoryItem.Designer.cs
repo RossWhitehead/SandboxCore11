@@ -8,8 +8,8 @@ using SandboxCore11.Data;
 namespace SandboxCore11.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170612123430_AddProject")]
-    partial class AddProject
+    [Migration("20170613081511_AddInventoryItem")]
+    partial class AddInventoryItem
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -124,16 +124,16 @@ namespace SandboxCore11.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("SandboxCore11.Data.Project", b =>
+            modelBuilder.Entity("SandboxCore11.Data.InventoryItem", b =>
                 {
-                    b.Property<int>("ProjectId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name");
 
-                    b.HasKey("ProjectId");
+                    b.HasKey("Id");
 
-                    b.ToTable("Projects");
+                    b.ToTable("InventoryItems");
                 });
 
             modelBuilder.Entity("SandboxCore11.Models.ApplicationUser", b =>

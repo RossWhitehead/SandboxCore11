@@ -89,7 +89,7 @@ namespace SandboxCore11
             });
 
             //Populates the MusicStore sample data
-            //DbInitializer.Seed(app.ApplicationServices).Wait();
+            DbInitializer.Seed(app.ApplicationServices).Wait();
         }
     }
 }

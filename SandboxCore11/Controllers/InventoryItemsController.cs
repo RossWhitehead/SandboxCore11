@@ -9,22 +9,22 @@ using SandboxCore11.Data;
 
 namespace SandboxCore11.Controllers
 {
-    public class ProjectsController : Controller
+    public class InventoryItemsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ProjectsController(ApplicationDbContext context)
+        public InventoryItemsController(ApplicationDbContext context)
         {
             _context = context;    
         }
 
-        // GET: Projects
+        // GET: InventoryItems
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Projects.ToListAsync());
+            return View(await _context.InventoryItems.ToListAsync());
         }
 
-        // GET: Projects/Details/5
+        // GET: InventoryItems/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +32,39 @@ namespace SandboxCore11.Controllers
                 return NotFound();
             }
 
-            var project = await _context.Projects.SingleOrDefaultAsync(m => m.ProjectId == id);
-
-            if (project == null)
+            var inventoryItem = await _context.InventoryItems
+                .SingleOrDefaultAsync(m => m.Id == id);
+            if (inventoryItem == null)
             {
                 return NotFound();
             }
 
-            return View(project);
+            return View(inventoryItem);
         }
 
-        // GET: Projects/Create
+        // GET: InventoryItems/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Projects/Create
+        // POST: InventoryItems/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProjectId,Name")] Project project)
+        public async Task<IActionResult> Create([Bind("Id,Name")] InventoryItem inventoryItem)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(project);
+                _context.Add(inventoryItem);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(project);
+            return View(inventoryItem);
         }
 
-        // GET: Projects/Edit/5
+        // GET: InventoryItems/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,24 +72,22 @@ namespace SandboxCore11.Controllers
                 return NotFound();
             }
 
-            var project = await _context.Projects.SingleOrDefaultAsync(m => m.ProjectId == id);
-
-            if (project == null)
+            var inventoryItem = await _context.InventoryItems.SingleOrDefaultAsync(m => m.Id == id);
+            if (inventoryItem == null)
             {
                 return NotFound();
             }
-
-            return View(project);
+            return View(inventoryItem);
         }
 
-        // POST: Projects/Edit/5
+        // POST: InventoryItems/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProjectId,Name")] Project project)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] InventoryItem inventoryItem)
         {
-            if (id != project.ProjectId)
+            if (id != inventoryItem.Id)
             {
                 return NotFound();
             }
@@ -98,12 +96,12 @@ namespace SandboxCore11.Controllers
             {
                 try
                 {
-                    _context.Update(project);
+                    _context.Update(inventoryItem);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProjectExists(project.ProjectId))
+                    if (!InventoryItemExists(inventoryItem.Id))
                     {
                         return NotFound();
                     }
@@ -114,10 +112,10 @@ namespace SandboxCore11.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            return View(project);
+            return View(inventoryItem);
         }
 
-        // GET: Projects/Delete/5
+        // GET: InventoryItems/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,30 +123,30 @@ namespace SandboxCore11.Controllers
                 return NotFound();
             }
 
-            var project = await _context.Projects.SingleOrDefaultAsync(m => m.ProjectId == id);
-
-            if (project == null)
+            var inventoryItem = await _context.InventoryItems
+                .SingleOrDefaultAsync(m => m.Id == id);
+            if (inventoryItem == null)
             {
                 return NotFound();
             }
 
-            return View(project);
+            return View(inventoryItem);
         }
 
-        // POST: Projects/Delete/5
+        // POST: InventoryItems/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var project = await _context.Projects.SingleOrDefaultAsync(m => m.ProjectId == id);
-            _context.Projects.Remove(project);
+            var inventoryItem = await _context.InventoryItems.SingleOrDefaultAsync(m => m.Id == id);
+            _context.InventoryItems.Remove(inventoryItem);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        private bool ProjectExists(int id)
+        private bool InventoryItemExists(int id)
         {
-            return _context.Projects.Any(e => e.ProjectId == id);
+            return _context.InventoryItems.Any(e => e.Id == id);
         }
     }
 }

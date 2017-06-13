@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Project>
+﻿@model IEnumerable<InventoryItem>
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -107,30 +107,3 @@
         </ul>
     </div>
 </div>
-
-
-<div class="row">
-
-    <div class="col-md-2">
-        <p>Project Id</p>
-    </div>
-
-    <div class="col-md-10">
-        <p>Project Name</p>
-    </div>
-
-</div>
-@foreach (var project in Model)
-{
-<div class="row">
-
-    <div class="col-md-2">
-        <p>@project.ProjectId</p>
-    </div>
-
-    <div class="col-md-10">
-        <a asp-controller="Project" asp-action="Overview">@project.Name</a>
-    </div>
-
-</div>
-}

@@ -123,16 +123,16 @@ namespace SandboxCore11.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("SandboxCore11.Data.Project", b =>
+            modelBuilder.Entity("SandboxCore11.Data.InventoryItem", b =>
                 {
-                    b.Property<int>("ProjectId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name");
 
-                    b.HasKey("ProjectId");
+                    b.HasKey("Id");
 
-                    b.ToTable("Projects");
+                    b.ToTable("InventoryItems");
                 });
 
             modelBuilder.Entity("SandboxCore11.Models.ApplicationUser", b =>
