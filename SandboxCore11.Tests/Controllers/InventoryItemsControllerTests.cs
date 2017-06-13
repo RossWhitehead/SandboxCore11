@@ -1,41 +1,30 @@
-﻿using SandboxCore11.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
-using Moq;
-using SandboxCore11.Data;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Caching.Memory;
+using SandboxCore11.Controllers;
+using SandboxCore11.Data;
+using SandboxCore11.Tests.Builders;
+using System.Collections.Generic;
+using Xunit;
 
 namespace SandboxCore11.Tests.Controllers
 {
     public class InventoryItemsControllerTests
     {
         private InventoryItemsController sut;
-        private ApplicationDbContext db;
-        private DbContextOptions<ApplicationDbContext> options;
+        private List<InventoryItem> expectedInventoryItems;
 
         public InventoryItemsControllerTests()
         {
-            this.options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(databaseName: "write")
-                .Options;
-
-            this.db = new ApplicationDbContext(options);
-
-            this.sut = new InventoryItemsController(this.db);
+            this.expectedInventoryItems = CreateTestInventoryItems();
+            var db = new ApplicationDbContextBuilder().WithInventoryItems(expectedInventoryItems);
+            this.sut = new InventoryItemsController(db);
         }
 
         [Fact]
         public void Index_ReturnsView()
         {
             // Arrange
-            var expectedInventoryItems = CreateTestInventoryItems(this.db);
-
+     
             // Action
             var result = this.sut.Index().Result as ViewResult;
 
@@ -49,7 +38,7 @@ namespace SandboxCore11.Tests.Controllers
                 
         }
 
-        private static List<InventoryItem> CreateTestInventoryItems(ApplicationDbContext db)
+        private static List<InventoryItem> CreateTestInventoryItems()
         {
             var inventoryItems = new List<InventoryItem>()
             {
@@ -57,10 +46,6 @@ namespace SandboxCore11.Tests.Controllers
                 new InventoryItem() { Id = 2, Name = "Item 2" },
                 new InventoryItem() { Id = 3, Name = "Item 3" }
             };
-
-            db.AddRange(inventoryItems);
-
-            db.SaveChanges();
 
             return inventoryItems;
         }
