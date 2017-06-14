@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SandboxCore11.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SandboxCore11.Controllers
 {
+    [Authorize]
     public class InventoryItemsController : Controller
     {
         private readonly ApplicationDbContext _context;
