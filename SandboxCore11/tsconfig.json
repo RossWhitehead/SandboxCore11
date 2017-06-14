@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowUnreachableCode": false,
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "outDir": "./wwwroot/js",
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "es5"
+  },
+  "include": [
+    "Scripts"
+  ],
+  "compileOnSave": true
+}
+

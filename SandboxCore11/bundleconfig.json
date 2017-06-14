@@ -19,6 +19,19 @@
       "renameLocals": true
     },
     // Optionally generate .map file
-    "sourceMap": false
+    "sourceMap": true
+  },
+  {
+    "outputFileName": "wwwroot/js/inventoryitems-index.min.js",
+    "inputFiles": [
+      "wwwroot/js/inventoryitems-index.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optionally generate .map file
+    "sourceMap": true
   }
 ]

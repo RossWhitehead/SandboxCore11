@@ -31,11 +31,10 @@ namespace SandboxCore11.Tests.Controllers
             // Assert
             result.Should().BeOfType<ViewResult>();
 
-            var vm = result.Model as List<InventoryItem>;
+            var actualInventoryItems = result.Model as List<InventoryItem>;
 
-            vm.Should().BeOfType<List<InventoryItem>>();
-            vm.ShouldAllBeEquivalentTo(expectedInventoryItems);
-                
+            actualInventoryItems.Should().BeOfType<List<InventoryItem>>();
+            actualInventoryItems.ShouldAllBeEquivalentTo(expectedInventoryItems);               
         }
 
         private static List<InventoryItem> CreateTestInventoryItems()
