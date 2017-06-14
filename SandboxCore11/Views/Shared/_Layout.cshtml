@@ -9,6 +9,9 @@
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <link href="~/css/sb-admin-2.css" rel="stylesheet" />
+        <link href="~/css/font-awesome.css" rel="stylesheet" />
+        <link href="~/css/custom.css" rel="stylesheet" />
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -19,8 +22,8 @@
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -32,22 +35,62 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="InventoryItems" asp-action="Index">Inventory</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
-        </div>
-    </nav>
-    <div class="container body-content">
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <br />
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <span><i class="fa fa-edit fa-fw"></i> Clients</span>
+                            <ul class="nav nav-second-level in">
+                                <li>
+                                    <a href="#">New Client</a>
+                                </li>
+                                <li>
+                                    <a href="#">All Clients</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+
+                            <span><i class="fa fa-edit fa-fw"></i> Orders</span>
+                            <ul class="nav nav-second-level in">
+                                <li>
+                                    <a href="#">New Order</a>
+                                </li>
+                                <li>
+                                    <a href="#">In Progress Orders</a>
+                                </li>
+
+                                <li>
+                                    <a href="#">Order History</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <span><i class="fa fa-edit fa-fw"></i> Inventory</span>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#">New Item</a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="InventoryItems" asp-action="Index">Current Inventory</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2017 - SandboxCore11</p>
-        </footer>
     </div>
+    <footer>
+        <p>&copy; 2016 Cypher Marketing<span class="pull-right">Contact Help Desk at 555-555-1342</span></p>
+    </footer>
 
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
