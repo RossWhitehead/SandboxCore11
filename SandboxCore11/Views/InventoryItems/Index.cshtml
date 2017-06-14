@@ -33,3 +33,11 @@
 }
     </tbody>
 </table>
+@section scripts{     
+    <environment names="Development">
+        <script src="~/js/inventoryitems-index.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/js/inventoryitems-index.min.js"></script>
+    </environment>    
+}
