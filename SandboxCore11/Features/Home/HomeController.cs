@@ -4,9 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SandboxCore11.Data;
-using SandboxCore11.Models.HomeViewModels;
 
-namespace SandboxCore11.Controllers
+namespace SandboxCore11.Features.Home
 {
     public class HomeController : Controller
     {

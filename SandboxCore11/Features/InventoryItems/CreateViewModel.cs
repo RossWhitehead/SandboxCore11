@@ -5,13 +5,15 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
-namespace SandboxCore11.Models.InventoryItemsViewModels
+namespace SandboxCore11.Features.InventoryItems
 {
     public class CreateViewModel
     {
         [StringLength(100, MinimumLength = 3)]
         [Required]
+        [Remote("ValidateName", "InventoryItems")]
         public string Name { get; set; }
 
         [StringLength(1000)]

@@ -11,7 +11,7 @@ using SandboxCore11.Models;
 using SandboxCore11.Models.ManageViewModels;
 using SandboxCore11.Services;
 
-namespace SandboxCore11.Controllers
+namespace SandboxCore11.Features.Manage
 {
     [Authorize]
     public class ManageController : Controller

@@ -12,8 +12,9 @@ using Microsoft.Extensions.Options;
 using SandboxCore11.Models;
 using SandboxCore11.Models.AccountViewModels;
 using SandboxCore11.Services;
+using SandboxCore11.Features.Home;
 
-namespace SandboxCore11.Controllers
+namespace SandboxCore11.Features.Account
 {
     [Authorize]
     public class AccountController : Controller

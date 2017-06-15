@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SandboxCore11.Models.HomeViewModels
+namespace SandboxCore11.Features.Home
 {
     public class IndexViewModel
     {

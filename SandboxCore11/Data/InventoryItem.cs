@@ -13,7 +13,6 @@ namespace SandboxCore11.Data
 
         [StringLength(100, MinimumLength = 3)]
         [Required]
-        [Remote("ValidateName", "InventoryItems")]
         public string Name { get; set; }
 
         [StringLength(1000)]

@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
-using SandboxCore11.Controllers;
 using SandboxCore11.Data;
+using SandboxCore11.Features.InventoryItems;
 using SandboxCore11.Tests.Builders;
 using System.Collections.Generic;
 using Xunit;
@@ -17,7 +17,7 @@ namespace SandboxCore11.Tests.Controllers
         {
             this.expectedInventoryItems = CreateTestInventoryItems();
             var db = new ApplicationDbContextBuilder().WithInventoryItems(expectedInventoryItems);
-            this.sut = new InventoryItemsController(db);
+            this.sut = new InventoryItemsController(db, null);
         }
 
         [Fact]

@@ -6,10 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SandboxCore11.Data;
-using SandboxCore11.Models.InventoryItemsViewModels;
 using AutoMapper;
 
-namespace SandboxCore11.Controllers
+namespace SandboxCore11.Features.InventoryItems
 {
     public class InventoryItemsController : Controller
     {

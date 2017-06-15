@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using SandboxCore11.Data;
-using SandboxCore11.Models.InventoryItemsViewModels;
+using SandboxCore11.Features.InventoryItems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
