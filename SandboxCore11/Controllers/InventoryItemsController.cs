@@ -6,23 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SandboxCore11.Data;
-using Microsoft.AspNetCore.Authorization;
+using SandboxCore11.Models.InventoryItemsViewModels;
+using AutoMapper;
 
 namespace SandboxCore11.Controllers
 {
     public class InventoryItemsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext dbContext;
+        private IMapper mapper;
 
-        public InventoryItemsController(ApplicationDbContext context)
+        public InventoryItemsController(ApplicationDbContext dbContext, IMapper mapper)
         {
-            _context = context;    
+            this.dbContext = dbContext;
+            this.mapper = mapper;
         }
 
         // GET: InventoryItems
         public async Task<IActionResult> Index()
         {
-            return View(await _context.InventoryItems.ToListAsync());
+            return View(await dbContext.InventoryItems.ToListAsync());
         }
 
         // GET: InventoryItems/Details/5
@@ -33,8 +36,7 @@ namespace SandboxCore11.Controllers
                 return NotFound();
             }
 
-            var inventoryItem = await _context.InventoryItems
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var inventoryItem = await dbContext.InventoryItems.SingleOrDefaultAsync(m => m.Id == id);
             if (inventoryItem == null)
             {
                 return NotFound();
@@ -44,9 +46,14 @@ namespace SandboxCore11.Controllers
         }
 
         // GET: InventoryItems/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var brands = await dbContext.Brands.ToListAsync();
+            var categories = await dbContext.Categories.ToListAsync();
+
+            var vm = new CreateViewModel() { Brands = brands, Categories = categories };
+
+            return View(vm);
         }
 
         // POST: InventoryItems/Create
@@ -54,15 +61,17 @@ namespace SandboxCore11.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] InventoryItem inventoryItem)
+        public async Task<IActionResult> Create([Bind("Name,Description,BrandId,CategoryId,ReorderLevel,ReorderQuantity")] CreateEditModel createEditModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(inventoryItem);
-                await _context.SaveChangesAsync();
+                var inventoryItem = mapper.Map<InventoryItem>(createEditModel);
+                dbContext.Add(inventoryItem);
+                await dbContext.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(inventoryItem);
+
+            return View();
         }
 
         // GET: InventoryItems/Edit/5
@@ -73,7 +82,7 @@ namespace SandboxCore11.Controllers
                 return NotFound();
             }
 
-            var inventoryItem = await _context.InventoryItems.SingleOrDefaultAsync(m => m.Id == id);
+            var inventoryItem = await dbContext.InventoryItems.SingleOrDefaultAsync(m => m.Id == id);
             if (inventoryItem == null)
             {
                 return NotFound();
@@ -86,7 +95,7 @@ namespace SandboxCore11.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] InventoryItem inventoryItem)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,ReorderLevel,ReorderQuantity")] InventoryItem inventoryItem)
         {
             if (id != inventoryItem.Id)
             {
@@ -97,8 +106,8 @@ namespace SandboxCore11.Controllers
             {
                 try
                 {
-                    _context.Update(inventoryItem);
-                    await _context.SaveChangesAsync();
+                    dbContext.Update(inventoryItem);
+                    await dbContext.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -124,7 +133,7 @@ namespace SandboxCore11.Controllers
                 return NotFound();
             }
 
-            var inventoryItem = await _context.InventoryItems
+            var inventoryItem = await dbContext.InventoryItems
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (inventoryItem == null)
             {
@@ -139,15 +148,27 @@ namespace SandboxCore11.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var inventoryItem = await _context.InventoryItems.SingleOrDefaultAsync(m => m.Id == id);
-            _context.InventoryItems.Remove(inventoryItem);
-            await _context.SaveChangesAsync();
+            var inventoryItem = await dbContext.InventoryItems.SingleOrDefaultAsync(m => m.Id == id);
+            dbContext.InventoryItems.Remove(inventoryItem);
+            await dbContext.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
         private bool InventoryItemExists(int id)
         {
-            return _context.InventoryItems.Any(e => e.Id == id);
+            return dbContext.InventoryItems.Any(e => e.Id == id);
+        }
+
+        public IActionResult ValidateName(string name)
+        {
+            if (name == "Item 1")
+            {
+                return Json($"An inventory item with the name ({name}) already exists.");
+            }
+            else
+            {
+                return Json(true);
+            }
         }
     }
 }

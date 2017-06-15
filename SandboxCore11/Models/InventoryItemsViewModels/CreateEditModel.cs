@@ -1,19 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using SandboxCore11.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SandboxCore11.Data
+namespace SandboxCore11.Models.InventoryItemsViewModels
 {
-    public class InventoryItem
+    public class CreateEditModel
     {
-        public int Id { get; set; }
-
         [StringLength(100, MinimumLength = 3)]
         [Required]
-        [Remote("ValidateName", "InventoryItems")]
         public string Name { get; set; }
 
         [StringLength(1000)]
@@ -27,10 +25,8 @@ namespace SandboxCore11.Data
 
         [Required]
         public int BrandId { get; set; }
-        public virtual Brand Brand { get; set; }
 
         [Required]
         public int CategoryId { get; set; }
-        public virtual Category  Category { get; set; }
     }
 }

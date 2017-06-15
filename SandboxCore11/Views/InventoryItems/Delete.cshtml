@@ -2,27 +2,43 @@
 
 @{
     ViewData["Title"] = "Delete";
+    ViewData["Header"] = "Delete";
+    ViewData["SubHeader"] = "Inventory item - " + Model.Id;
 }
 
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
+<h3>Are you sure you want to delete this item?</h3>
 <div>
-    <h4>InventoryItem</h4>
-    <hr />
     <dl class="dl-horizontal">
-        <input type="hidden" asp-for="Id" />
         <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ReorderLevel)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ReorderLevel)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ReorderQuantity)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ReorderQuantity)
+        </dd>
     </dl>
     
     <form asp-action="Delete">
+
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
+            <input type="submit" value="Delete" class="btn btn-primary" /> |
             <a asp-action="Index">Back to List</a>
         </div>
     </form>

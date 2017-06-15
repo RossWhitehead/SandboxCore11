@@ -10,6 +10,8 @@ namespace SandboxCore11.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public DbSet<InventoryItem> InventoryItems { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)

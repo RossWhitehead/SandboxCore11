@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using SandboxCore11.Data;
 using SandboxCore11.Models;
 using SandboxCore11.Services;
+using AutoMapper;
 
 namespace SandboxCore11
 {
@@ -48,6 +49,8 @@ namespace SandboxCore11
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
+
+            services.AddAutoMapper();
 
             services.AddMemoryCache();
 
