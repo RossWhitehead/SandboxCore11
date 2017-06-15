@@ -22,5 +22,11 @@ namespace SandboxCore11.Data
 
         [Required]
         public int ReorderQuantity { get; set; }
+
+        [Required]
+        public virtual Brand Brand { get; set; }
+
+        [Required]
+        public virtual Category  Category { get; set; }
     }
 }
