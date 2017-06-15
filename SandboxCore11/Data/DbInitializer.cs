@@ -32,8 +32,8 @@ namespace SandboxCore11.Data
 
             var categories = new Category[]
                 {
-                    new Category() { Name = "Cannondale" },
-                    new Category() { Name = "Giant" }
+                    new Category() { Name = "Road bikes" },
+                    new Category() { Name = "Mountain bikes" }
                 };
 
             db.AddRange(categories);

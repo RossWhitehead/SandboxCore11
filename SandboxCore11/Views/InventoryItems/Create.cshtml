@@ -1,4 +1,4 @@
-@model SandboxCore11.Data.InventoryItem
+@model SandboxCore11.Models.InventoryItemsViewModels.CreateViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -21,6 +21,24 @@
             <div class="col-md-10">
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="BrandId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="BrandId" asp-items="@Model.BrandSelectItems" class="form-control" >
+                    <option value="">Please select a brand</option>
+                </select>
+                <span asp-validation-for="BrandId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="CategoryId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="CategoryId" asp-items="@Model.CategorySelectItems" class="form-control">
+                    <option value="">Please select a category</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
