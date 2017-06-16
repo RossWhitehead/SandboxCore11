@@ -10,11 +10,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SandboxCore11.Data;
-using SandboxCore11.Models;
 using SandboxCore11.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Razor;
 using SandboxCore11.Features;
+using SandboxCore11.Features.Account;
 
 namespace SandboxCore11
 {

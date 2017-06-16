@@ -1,4 +1,4 @@
-﻿@model SandboxCore11.Models.HomeViewModels.IndexViewModel
+﻿@model SandboxCore11.Features.Home.IndexViewModel
 @{
     ViewData["Title"] = "Home Page";
     ViewData["Header"] = "Welcome to the Ordering Application!";
@@ -39,6 +39,7 @@
         </div>
     </div>
     <div class="col-md-4">
+        @await Component.InvokeAsync("StockWarningsWidget"); 
         <div class="panel panel-primary widget">
             <div class="panel-heading">
                 <div class="row">

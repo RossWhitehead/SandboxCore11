@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SandboxCore11.Models.ManageViewModels
+namespace SandboxCore11.Features.Manage
 {
     public class SetPasswordViewModel
     {

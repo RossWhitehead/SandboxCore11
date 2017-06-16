@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SandboxCore11.Models.AccountViewModels
+namespace SandboxCore11.Features.Account
 {
-    public class ForgotPasswordViewModel
+    public class ExternalLoginConfirmationViewModel
     {
         [Required]
         [EmailAddress]

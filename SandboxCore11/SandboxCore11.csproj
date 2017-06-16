@@ -51,8 +51,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Components\" />
-    <Folder Include="Features\Shared\Components\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>
