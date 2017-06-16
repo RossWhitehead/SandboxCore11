@@ -52,7 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Components\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Features\Shared\Components\" />
   </ItemGroup>
 
