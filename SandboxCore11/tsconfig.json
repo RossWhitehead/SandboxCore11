@@ -11,7 +11,8 @@
     "target": "es5"
   },
   "include": [
-    "Scripts"
+    "Features/**/*",
+    "Scripts/**/*"
   ],
   "compileOnSave": true
 }

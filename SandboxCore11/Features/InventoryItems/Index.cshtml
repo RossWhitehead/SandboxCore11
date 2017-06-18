@@ -59,3 +59,11 @@
         @await Component.InvokeAsync("StockWarningsWidget")
     </div>
 </div>
+@section scripts{
+<environment names="Development">
+    <script src="~/js/Features/InventoryItems/inventoryitems-index.js" asp-append-version="true"></script>
+</environment>
+<environment names="Staging,Production">
+    <script src="~/js/Features/InventoryItems/inventoryitems-index.min.js" asp-append-version="true"></script>
+</environment>
+}
