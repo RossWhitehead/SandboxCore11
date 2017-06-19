@@ -4,4 +4,5 @@
             console.log('Message' + message);
         }
     }
+    console.log($('.table'));
 }
