@@ -8,11 +8,12 @@
     "outDir": "./wwwroot/js",
     "removeComments": false,
     "sourceMap": true,
-    "target": "es5"
+    "target": "es2015",
+    "allowSyntheticDefaultImports": true
   },
   "include": [
-    "Features/**/*",
-    "Scripts/**/*"
+    "Features",
+    "Scripts"
   ],
   "compileOnSave": true,
   "typeAcquisition": {
