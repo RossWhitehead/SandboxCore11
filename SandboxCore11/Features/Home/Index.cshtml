@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    ViewData["Header"] = "Welcome to the Ordering Application!";
+    ViewData["SubHeader"] = "Here you can manage inventory and orders for our customers";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        @await Component.InvokeAsync("PendingOrdersWidget")
+    </div>
+    <div class="col-md-4">
+        @await Component.InvokeAsync("StockWarningsWidget")
+        @await Component.InvokeAsync("LatestProductsWidget")
+    </div>
+</div>

@@ -9,9 +9,9 @@
     ]
   },
   {
-    "outputFileName": "wwwroot/js/site.min.js",
+    "outputFileName": "wwwroot/js/acripts/site.min.js",
     "inputFiles": [
-      "wwwroot/js/site.js"
+      "wwwroot/js/scripts/site.js"
     ],
     // Optionally specify minification options
     "minify": {
@@ -22,9 +22,9 @@
     "sourceMap": true
   },
   {
-    "outputFileName": "wwwroot/js/inventoryitems-index.min.js",
+    "outputFileName": "wwwroot/js/features/inventoryitems/inventoryitems-index.min.js",
     "inputFiles": [
-      "wwwroot/js/inventoryitems-index.js"
+      "wwwroot/js/features/inventoryitems/inventoryitems-index.js"
     ],
     // Optionally specify minification options
     "minify": {

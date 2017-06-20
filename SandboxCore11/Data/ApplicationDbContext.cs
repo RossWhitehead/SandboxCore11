@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SandboxCore11.Models;
+using SandboxCore11.Features.Account;
 
 namespace SandboxCore11.Data
 {
