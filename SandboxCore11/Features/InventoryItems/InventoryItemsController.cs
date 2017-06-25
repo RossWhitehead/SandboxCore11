@@ -1,15 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using SandboxCore11.Data;
-using AutoMapper;
-
 namespace SandboxCore11.Features.InventoryItems
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using AutoMapper;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using SandboxCore11.Data;
+    using SandboxCore11.Infrastructure.Query;
+    using SandboxCore11.Queries;
+
     public class InventoryItemsController : Controller
     {
         private readonly ApplicationDbContext dbContext;
@@ -22,9 +22,10 @@ namespace SandboxCore11.Features.InventoryItems
         }
 
         // GET: InventoryItems
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromServices]IQueryHandlerAsync<InventoryItemsQuery, List<Queries.InventoryItem>> queryHandler)
         {
-            return View(await dbContext.InventoryItems.ToListAsync());
+            var inventoryItems = await queryHandler.HandleAsync(new InventoryItemsQuery());
+            return View(inventoryItems);
         }
 
         // GET: InventoryItems/Details/5
@@ -64,7 +65,7 @@ namespace SandboxCore11.Features.InventoryItems
         {
             if (ModelState.IsValid)
             {
-                var inventoryItem = mapper.Map<InventoryItem>(createEditModel);
+                var inventoryItem = mapper.Map<Data.InventoryItem>(createEditModel);
                 dbContext.Add(inventoryItem);
                 await dbContext.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -94,7 +95,7 @@ namespace SandboxCore11.Features.InventoryItems
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,ReorderLevel,ReorderQuantity")] InventoryItem inventoryItem)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,ReorderLevel,ReorderQuantity")] Data.InventoryItem inventoryItem)
         {
             if (id != inventoryItem.Id)
             {
