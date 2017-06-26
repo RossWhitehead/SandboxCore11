@@ -54,6 +54,7 @@ namespace SandboxCore11
 
             services.Configure<RazorViewEngineOptions>(options =>
             {
+                options.ViewLocationExpanders.Clear();
                 options.ViewLocationExpanders.Add(new FeaturesViewLocationExpander());
             });
 

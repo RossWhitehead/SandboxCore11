@@ -7,5 +7,7 @@ namespace SandboxCore11.Data
 {
     public class Supplier
     {
+        public int SupplierId { get; set; }
+        public string Name { get; set; }
     }
 }

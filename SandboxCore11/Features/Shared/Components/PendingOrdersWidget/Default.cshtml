@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PurchaseOrder>
+﻿@model IEnumerable<SandboxCore11.Features.Shared.Components.PendingOrdersWidget.PendingOrderViewModel>
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3>Pending Orders</h3>
@@ -9,16 +9,15 @@
             {
                 <a href="#" class="list-group-item">
                     <h4 class="list-group-item-heading">
-                        @order.Name
-                        <span class="pull-right">Last Updated: @order.LastUpdated</span>
+                        <span>PO: @order.PurchaseOrderId</span>
+                        <span>Status: @order.Status</span>
+                        <span last-updated="@order.ExpectedDeliveryDate" class="pull-right">Expected: @order.ExpectedDeliveryDate</span>
                     </h4>
                     <p class="list-group-item-text">
-                        @order.Description
+                        @order.SupplierName
                     </p>
                     <div class="progress">
-                        <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                            <span class="sr-only">40% Complete (success)</span>
-                        </div>
+                        <progress-bar stage="@order.Status"></progress-bar>
                     </div>
                 </a>
             }

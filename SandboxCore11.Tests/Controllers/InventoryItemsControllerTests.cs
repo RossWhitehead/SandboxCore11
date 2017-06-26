@@ -1,13 +1,13 @@
-﻿using FluentAssertions;
-using Microsoft.AspNetCore.Mvc;
-using SandboxCore11.Data;
-using SandboxCore11.Features.InventoryItems;
-using SandboxCore11.Tests.Builders;
-using System.Collections.Generic;
-using Xunit;
-
-namespace SandboxCore11.Tests.Controllers
+﻿namespace SandboxCore11.Tests.Controllers
 {
+    using System.Collections.Generic;
+    using FluentAssertions;
+    using Microsoft.AspNetCore.Mvc;
+    using SandboxCore11.Data;
+    using SandboxCore11.Features.InventoryItems;
+    using SandboxCore11.Tests.Builders;
+    using Xunit;
+
     public class InventoryItemsControllerTests
     {
         private InventoryItemsController sut;
@@ -17,14 +17,14 @@ namespace SandboxCore11.Tests.Controllers
         {
             this.expectedInventoryItems = CreateTestInventoryItems();
             var db = new ApplicationDbContextBuilder().WithInventoryItems(expectedInventoryItems);
-            this.sut = new InventoryItemsController(db, null);
+            this.sut = new InventoryItemsController(db, null, null);
         }
 
         [Fact]
         public void Index_ReturnsView()
         {
             // Arrange
-     
+
             // Action
             var result = this.sut.Index().Result as ViewResult;
 
@@ -34,7 +34,7 @@ namespace SandboxCore11.Tests.Controllers
             var actualInventoryItems = result.Model as List<InventoryItem>;
 
             actualInventoryItems.Should().BeOfType<List<InventoryItem>>();
-            actualInventoryItems.ShouldAllBeEquivalentTo(expectedInventoryItems);               
+            actualInventoryItems.ShouldAllBeEquivalentTo(expectedInventoryItems);
         }
 
         private static List<InventoryItem> CreateTestInventoryItems()
