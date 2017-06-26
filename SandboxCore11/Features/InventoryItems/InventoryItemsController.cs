@@ -1,12 +1,17 @@
 namespace SandboxCore11.Features.InventoryItems
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Caching.Memory;
+    using SandboxCore11.Commands;
     using SandboxCore11.Data;
+    using SandboxCore11.Infrastructure.Command;
+    using SandboxCore11.Infrastructure.Query;
+    using SandboxCore11.Queries;
 
     public class InventoryItemsController : Controller
     {
@@ -61,13 +66,14 @@ namespace SandboxCore11.Features.InventoryItems
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Description,BrandId,CategoryId,ReorderLevel,ReorderQuantity")] CreateEditModel createEditModel)
+        public async Task<IActionResult> Create(
+            [FromServices] ICommandHandlerAsync<CreateInventoryItemCommand> commandHandler,
+            [Bind("Name,Description,BrandId,CategoryId,ReorderLevel,ReorderQuantity")] CreateEditModel createEditModel)
         {
             if (ModelState.IsValid)
             {
-                var inventoryItem = mapper.Map<InventoryItem>(createEditModel);
-                db.Add(inventoryItem);
-                await db.SaveChangesAsync();
+                var command = mapper.Map<CreateInventoryItemCommand>(createEditModel);
+                await commandHandler.HandleAsync(command);
                 return RedirectToAction("Index");
             }
 

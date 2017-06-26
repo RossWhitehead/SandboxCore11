@@ -3,7 +3,7 @@
     using System.Threading.Tasks;
 
     /// <summary>
-    /// Represents an asynchronous query handler.
+    /// Represents a query handler.
     /// </summary>
     /// <typeparam name="TQuery">The type of the query.</typeparam>
     /// <typeparam name="TResult">The type of the result.</typeparam>

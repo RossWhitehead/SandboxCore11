@@ -8,12 +8,12 @@
     using SandboxCore11.Data;
     using SandboxCore11.Infrastructure.Query;
 
-    public class InventoryItemsQueryHandlerAsync : IQueryHandlerAsync<InventoryItemsQuery, List<InventoryItem>>
+    public class InventoryItemsQueryHandler : IQueryHandlerAsync<InventoryItemsQuery, List<InventoryItem>>
     {
         private ApplicationDbContext db;
         private IMapper mapper;
 
-        public InventoryItemsQueryHandlerAsync(ApplicationDbContext db, IMapper mapper)
+        public InventoryItemsQueryHandler(ApplicationDbContext db, IMapper mapper)
         {
             this.db = db;
             this.mapper = mapper;
