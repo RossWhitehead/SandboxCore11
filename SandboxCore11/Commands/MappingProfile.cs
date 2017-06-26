@@ -7,7 +7,7 @@
         public MappingProfile()
         {
             // Create Inventory item
-            CreateMap<CreateInventoryItemCommand, Data.InventoryItem>();
+            CreateMap<CreateInventoryItem.CreateInventoryItemCommand, Data.InventoryItem>();
         }
     }
 }

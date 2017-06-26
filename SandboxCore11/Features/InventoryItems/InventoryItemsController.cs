@@ -7,7 +7,7 @@ namespace SandboxCore11.Features.InventoryItems
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Caching.Memory;
-    using SandboxCore11.Commands;
+    using SandboxCore11.Commands.CreateInventoryItem;
     using SandboxCore11.Data;
     using SandboxCore11.Infrastructure.Command;
     using SandboxCore11.Infrastructure.Query;

@@ -1,4 +1,4 @@
-﻿namespace SandboxCore11.Commands
+﻿namespace SandboxCore11.Commands.CreateInventoryItem
 {
     using SandboxCore11.Infrastructure.Command;
 

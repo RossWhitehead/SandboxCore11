@@ -18,7 +18,9 @@ using SandboxCore11.Features.Account;
 using SandboxCore11.Infrastructure.Query;
 using SandboxCore11.Queries;
 using SandboxCore11.Infrastructure.Command;
-using SandboxCore11.Commands;
+using SandboxCore11.Commands.CreateInventoryItem;
+using FluentValidation.AspNetCore;
+using FluentValidation;
 
 namespace SandboxCore11
 {
@@ -54,7 +56,8 @@ namespace SandboxCore11
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc();
+            services.AddMvc()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateInventoryItemCommand>());
 
             services.Configure<RazorViewEngineOptions>(options =>
             {
@@ -75,6 +78,9 @@ namespace SandboxCore11
 
             // Commands
             services.AddTransient<ICommandHandlerAsync<CreateInventoryItemCommand>, CreateInventoryItemCommandHandler>();
+
+            // Validators
+            services.AddTransient<AbstractValidator<CreateInventoryItemCommand>, CreateInventoryItemCommandValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
