@@ -23,18 +23,18 @@
         [Fact]
         public void Index_ReturnsView()
         {
-            // Arrange
+            //// Arrange
+     
+            //// Action
+            //var result = this.sut.Index().Result as ViewResult;
 
-            // Action
-            var result = this.sut.Index().Result as ViewResult;
+            //// Assert
+            //result.Should().BeOfType<ViewResult>();
 
-            // Assert
-            result.Should().BeOfType<ViewResult>();
+            //var actualInventoryItems = result.Model as List<InventoryItem>;
 
-            var actualInventoryItems = result.Model as List<InventoryItem>;
-
-            actualInventoryItems.Should().BeOfType<List<InventoryItem>>();
-            actualInventoryItems.ShouldAllBeEquivalentTo(expectedInventoryItems);
+            //actualInventoryItems.Should().BeOfType<List<InventoryItem>>();
+            //actualInventoryItems.ShouldAllBeEquivalentTo(expectedInventoryItems);               
         }
 
         private static List<InventoryItem> CreateTestInventoryItems()

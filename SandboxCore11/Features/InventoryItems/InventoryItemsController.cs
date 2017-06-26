@@ -22,9 +22,10 @@ namespace SandboxCore11.Features.InventoryItems
         }
 
         // GET: InventoryItems
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromServices]IQueryHandlerAsync<InventoryItemsQuery, List<Queries.InventoryItem>> queryHandler)
         {
-            return View(await db.InventoryItems.ToListAsync());
+            var inventoryItems = await queryHandler.HandleAsync(new InventoryItemsQuery());
+            return View(inventoryItems);
         }
 
         // GET: InventoryItems/Details/5
@@ -94,7 +95,7 @@ namespace SandboxCore11.Features.InventoryItems
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,ReorderLevel,ReorderQuantity")] InventoryItem inventoryItem)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,ReorderLevel,ReorderQuantity")] Data.InventoryItem inventoryItem)
         {
             if (id != inventoryItem.Id)
             {

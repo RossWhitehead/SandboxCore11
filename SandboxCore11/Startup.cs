@@ -15,6 +15,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Razor;
 using SandboxCore11.Features;
 using SandboxCore11.Features.Account;
+using SandboxCore11.Infrastructure.Query;
+using SandboxCore11.Queries;
 
 namespace SandboxCore11
 {
@@ -65,6 +67,7 @@ namespace SandboxCore11
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddTransient<IQueryHandlerAsync<InventoryItemsQuery, List<Queries.InventoryItem>>, InventoryItemsQueryHandlerAsync>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
