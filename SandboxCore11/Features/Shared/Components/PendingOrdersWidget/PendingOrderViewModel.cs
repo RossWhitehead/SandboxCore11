@@ -1,14 +1,14 @@
-﻿namespace SandboxCore11.Data
+﻿namespace SandboxCore11.Features.Shared.Components.PendingOrdersWidget
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
 
-    public class PurchaseOrder
+    public class PendingOrderViewModel
     {
         public int PurchaseOrderId { get; set; }
 
-        [Required]
         public string Status { get; set; }
+
+        public string SupplierName { get; set; }
 
         public DateTime RequestedDate { get; set; }
 
@@ -17,12 +17,5 @@
         public DateTime ExpectedDeliveryDate { get; set; }
 
         public DateTime ReceivedDate { get; set; }
-
-        public DateTime LastUpdatedDate { get; } = DateTime.UtcNow;
-
-        [Required]
-        public int SupplierId { get; set; }
-
-        public virtual Supplier Supplier { get; set; }
     }
 }

@@ -4,7 +4,7 @@ var SandboxCore11;
         function Message() {
         }
         Message.prototype.display = function (message) {
-            console.log('Message' + message);
+            console.log('Message:' + message);
         };
         return Message;
     }());

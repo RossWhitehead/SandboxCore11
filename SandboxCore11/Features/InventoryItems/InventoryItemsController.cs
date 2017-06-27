@@ -1,30 +1,36 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using SandboxCore11.Data;
-using AutoMapper;
-
 namespace SandboxCore11.Features.InventoryItems
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using AutoMapper;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Caching.Memory;
+    using SandboxCore11.Commands;
+    using SandboxCore11.Data;
+    using SandboxCore11.Infrastructure.Command;
+    using SandboxCore11.Infrastructure.Query;
+    using SandboxCore11.Queries;
+
     public class InventoryItemsController : Controller
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly ApplicationDbContext db;
         private IMapper mapper;
+        private IMemoryCache cache;
 
-        public InventoryItemsController(ApplicationDbContext dbContext, IMapper mapper)
+        public InventoryItemsController(ApplicationDbContext db, IMapper mapper, IMemoryCache cache)
         {
-            this.dbContext = dbContext;
+            this.db = db;
             this.mapper = mapper;
+            this.cache = cache;
         }
 
         // GET: InventoryItems
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromServices]IQueryHandlerAsync<InventoryItemsQuery, List<Queries.InventoryItem>> queryHandler)
         {
-            return View(await dbContext.InventoryItems.ToListAsync());
+            var inventoryItems = await queryHandler.HandleAsync(new InventoryItemsQuery());
+            return View(inventoryItems);
         }
 
         // GET: InventoryItems/Details/5
@@ -35,7 +41,7 @@ namespace SandboxCore11.Features.InventoryItems
                 return NotFound();
             }
 
-            var inventoryItem = await dbContext.InventoryItems.SingleOrDefaultAsync(m => m.Id == id);
+            var inventoryItem = await db.InventoryItems.SingleOrDefaultAsync(m => m.Id == id);
             if (inventoryItem == null)
             {
                 return NotFound();
@@ -47,8 +53,8 @@ namespace SandboxCore11.Features.InventoryItems
         // GET: InventoryItems/Create
         public async Task<IActionResult> Create()
         {
-            var brands = await dbContext.Brands.ToListAsync();
-            var categories = await dbContext.Categories.ToListAsync();
+            var brands = await db.Brands.ToListAsync();
+            var categories = await db.Categories.ToListAsync();
 
             var vm = new CreateViewModel() { Brands = brands, Categories = categories };
 
@@ -60,13 +66,14 @@ namespace SandboxCore11.Features.InventoryItems
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Description,BrandId,CategoryId,ReorderLevel,ReorderQuantity")] CreateEditModel createEditModel)
+        public async Task<IActionResult> Create(
+            [FromServices] ICommandHandlerAsync<CreateInventoryItemCommand> commandHandler,
+            [Bind("Name,Description,BrandId,CategoryId,ReorderLevel,ReorderQuantity")] CreateEditModel createEditModel)
         {
             if (ModelState.IsValid)
             {
-                var inventoryItem = mapper.Map<InventoryItem>(createEditModel);
-                dbContext.Add(inventoryItem);
-                await dbContext.SaveChangesAsync();
+                var command = mapper.Map<CreateInventoryItemCommand>(createEditModel);
+                await commandHandler.HandleAsync(command);
                 return RedirectToAction("Index");
             }
 
@@ -81,7 +88,7 @@ namespace SandboxCore11.Features.InventoryItems
                 return NotFound();
             }
 
-            var inventoryItem = await dbContext.InventoryItems.SingleOrDefaultAsync(m => m.Id == id);
+            var inventoryItem = await db.InventoryItems.SingleOrDefaultAsync(m => m.Id == id);
             if (inventoryItem == null)
             {
                 return NotFound();
@@ -94,7 +101,7 @@ namespace SandboxCore11.Features.InventoryItems
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,ReorderLevel,ReorderQuantity")] InventoryItem inventoryItem)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,ReorderLevel,ReorderQuantity")] Data.InventoryItem inventoryItem)
         {
             if (id != inventoryItem.Id)
             {
@@ -105,8 +112,8 @@ namespace SandboxCore11.Features.InventoryItems
             {
                 try
                 {
-                    dbContext.Update(inventoryItem);
-                    await dbContext.SaveChangesAsync();
+                    db.Update(inventoryItem);
+                    await db.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -132,7 +139,7 @@ namespace SandboxCore11.Features.InventoryItems
                 return NotFound();
             }
 
-            var inventoryItem = await dbContext.InventoryItems
+            var inventoryItem = await db.InventoryItems
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (inventoryItem == null)
             {
@@ -147,15 +154,15 @@ namespace SandboxCore11.Features.InventoryItems
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var inventoryItem = await dbContext.InventoryItems.SingleOrDefaultAsync(m => m.Id == id);
-            dbContext.InventoryItems.Remove(inventoryItem);
-            await dbContext.SaveChangesAsync();
+            var inventoryItem = await db.InventoryItems.SingleOrDefaultAsync(m => m.Id == id);
+            db.InventoryItems.Remove(inventoryItem);
+            await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
         private bool InventoryItemExists(int id)
         {
-            return dbContext.InventoryItems.Any(e => e.Id == id);
+            return db.InventoryItems.Any(e => e.Id == id);
         }
 
         public IActionResult ValidateName(string name)
