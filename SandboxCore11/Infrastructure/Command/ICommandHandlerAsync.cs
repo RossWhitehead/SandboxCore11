@@ -1,8 +1,9 @@
-﻿using System.Threading.Tasks;
-
-namespace SandboxCore11.Infrastructure.Command
+﻿namespace SandboxCore11.Infrastructure.Command
 {
-    public interface ICommandHandlerAsync<T> where T : ICommand
+    using System.Threading.Tasks;
+
+    public interface ICommandHandlerAsync<T> 
+        where T : ICommand
     {
         Task<CommandResult> HandleAsync(T command);
     }

@@ -1,29 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using SandboxCore11.Data;
-using SandboxCore11.Services;
-using AutoMapper;
-using Microsoft.AspNetCore.Mvc.Razor;
-using SandboxCore11.Features;
-using SandboxCore11.Features.Account;
-using SandboxCore11.Infrastructure.Query;
-using SandboxCore11.Queries;
-using SandboxCore11.Infrastructure.Command;
-using SandboxCore11.Commands.CreateInventoryItem;
-using FluentValidation.AspNetCore;
-using FluentValidation;
-
-namespace SandboxCore11
+﻿namespace SandboxCore11
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using AutoMapper;
+    using FluentValidation;
+    using FluentValidation.AspNetCore;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.AspNetCore.Mvc.Razor;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
+    using SandboxCore11.Commands.CreateInventoryItem;
+    using SandboxCore11.Data;
+    using SandboxCore11.Features;
+    using SandboxCore11.Features.Account;
+    using SandboxCore11.Infrastructure.Command;
+    using SandboxCore11.Infrastructure.Query;
+    using SandboxCore11.Queries;
+    using SandboxCore11.Services;
+
     public class Startup
     {
         public Startup(IHostingEnvironment env)
