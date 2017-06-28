@@ -1,11 +1,12 @@
-﻿namespace SandboxCore11.Commands.CreateInventoryItem
+﻿namespace SandboxCore11.Commands
 {
     using SandboxCore11.Infrastructure.Command;
 
-    public class CreateInventoryItemCommand : ICommand
+    public class EditInventoryItemCommand : ICommand
     {
-        public CreateInventoryItemCommand(string name, string description, int reorderLevel, int reorderQuantity, int brandId, int categoryId)
+        public EditInventoryItemCommand(int inventoryItemId, string name, string description, int reorderLevel, int reorderQuantity, int brandId, int categoryId)
         {
+            this.InventoryItemId = inventoryItemId;
             this.Name = name;
             this.Description = description;
             this.ReorderLevel = reorderLevel;
@@ -13,6 +14,8 @@
             this.BrandId = brandId;
             this.CategoryId = categoryId;
         }
+
+        public int InventoryItemId { get; }
 
         public string Name { get; }
 

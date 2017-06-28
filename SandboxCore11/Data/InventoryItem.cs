@@ -9,7 +9,7 @@ namespace SandboxCore11.Data
 {
     public class InventoryItem
     {
-        public int Id { get; set; }
+        public int InventoryItemId { get; set; }
 
         [StringLength(100, MinimumLength = 3)]
         [Required]

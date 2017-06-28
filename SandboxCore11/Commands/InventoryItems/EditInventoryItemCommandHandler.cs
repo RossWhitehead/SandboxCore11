@@ -1,28 +1,25 @@
-﻿namespace SandboxCore11.Commands.CreateInventoryItem
+﻿namespace SandboxCore11.Commands
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
     using FluentValidation;
     using SandboxCore11.Data;
     using SandboxCore11.Infrastructure.Command;
 
-    public class CreateInventoryItemCommandHandler : ICommandHandlerAsync<CreateInventoryItemCommand>
+    public class EditInventoryItemCommandHandler : ICommandHandlerAsync<EditInventoryItemCommand>
     {
         private ApplicationDbContext db;
         private IMapper mapper;
-        private AbstractValidator<CreateInventoryItemCommand> validator;
+        private AbstractValidator<EditInventoryItemCommand> validator;
 
-        public CreateInventoryItemCommandHandler(ApplicationDbContext db, IMapper mapper, AbstractValidator<CreateInventoryItemCommand> validator)
+        public EditInventoryItemCommandHandler(ApplicationDbContext db, IMapper mapper, AbstractValidator<EditInventoryItemCommand> validator)
         {
             this.db = db;
             this.mapper = mapper;
             this.validator = validator;
         }
 
-        public async Task<CommandResult> HandleAsync(CreateInventoryItemCommand command)
+        public async Task<CommandResult> HandleAsync(EditInventoryItemCommand command)
         {
             var isValid = await Validate(command);
 
@@ -33,7 +30,7 @@
             return new CommandResult(true, string.Empty);
         }
 
-        private async Task<bool> Validate(CreateInventoryItemCommand command)
+        private async Task<bool> Validate(EditInventoryItemCommand command)
         {
             await validator.ValidateAndThrowAsync(command);
             return true;

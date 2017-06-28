@@ -1,4 +1,4 @@
-﻿namespace SandboxCore11.Commands.CreateInventoryItem
+﻿namespace SandboxCore11.Commands
 {
     using System;
     using System.Collections.Generic;
@@ -7,11 +7,11 @@
     using FluentValidation;
     using SandboxCore11.Data;
 
-    public class CreateInventoryItemCommandValidator : AbstractValidator<CreateInventoryItemCommand>
+    public class CreatePurchaseOrderCommandValidator : AbstractValidator<CreatePurchaseOrderCommand>
     {
         private ApplicationDbContext db;
 
-        public CreateInventoryItemCommandValidator(ApplicationDbContext db)
+        public CreatePurchaseOrderCommandValidator(ApplicationDbContext db)
         {
             this.db = db;
 

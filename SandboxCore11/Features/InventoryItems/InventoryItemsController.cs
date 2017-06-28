@@ -7,54 +7,60 @@ namespace SandboxCore11.Features.InventoryItems
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Caching.Memory;
-    using SandboxCore11.Commands.CreateInventoryItem;
+    using SandboxCore11.Commands;
     using SandboxCore11.Data;
     using SandboxCore11.Infrastructure.Command;
     using SandboxCore11.Infrastructure.Query;
     using SandboxCore11.Queries;
 
+    [Route("InventoryItems")]
     public class InventoryItemsController : Controller
     {
-        private readonly ApplicationDbContext db;
         private IMapper mapper;
         private IMemoryCache cache;
 
-        public InventoryItemsController(ApplicationDbContext db, IMapper mapper, IMemoryCache cache)
+        public InventoryItemsController(IMapper mapper, IMemoryCache cache)
         {
-            this.db = db;
             this.mapper = mapper;
             this.cache = cache;
         }
 
         // GET: InventoryItems
-        public async Task<IActionResult> Index([FromServices]IQueryHandlerAsync<InventoryItemsQuery, List<Queries.InventoryItem>> queryHandler)
+        [HttpGet("Index")]
+        public async Task<IActionResult> Index(
+            [FromServices]IQueryHandlerAsync<InventoryItemsQuery, List<Queries.InventoryItem>> queryHandler)
         {
             var inventoryItems = await queryHandler.HandleAsync(new InventoryItemsQuery());
+
             return View(inventoryItems);
         }
 
         // GET: InventoryItems/Details/5
-        public async Task<IActionResult> Details(int? id)
+        [HttpGet("Details/{InventoryItemId}")]
+        public async Task<IActionResult> Details(
+            [FromServices]IQueryHandlerAsync<InventoryItemQuery, Queries.InventoryItem> queryHandler,
+            InventoryItemQuery query)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var inventoryItem = await queryHandler.HandleAsync(query);
 
-            var inventoryItem = await db.InventoryItems.SingleOrDefaultAsync(m => m.Id == id);
             if (inventoryItem == null)
             {
                 return NotFound();
             }
 
-            return View(inventoryItem);
+            var vm = mapper.Map<DetailsViewModel>(inventoryItem);
+
+            return View(vm);
         }
 
         // GET: InventoryItems/Create
-        public async Task<IActionResult> Create()
+        [HttpGet("Create")]
+        public async Task<IActionResult> Create(
+            [FromServices]IQueryHandlerAsync<BrandsQuery, List<Queries.Brand>> brandsQueryHandler,
+            [FromServices]IQueryHandlerAsync<CategoriesQuery, List<Queries.Category>> categoriesQueryHandler)
         {
-            var brands = await db.Brands.ToListAsync();
-            var categories = await db.Categories.ToListAsync();
+            var brands = await brandsQueryHandler.HandleAsync(new BrandsQuery());
+            var categories = await categoriesQueryHandler.HandleAsync(new CategoriesQuery());
 
             var vm = new CreateViewModel() { Brands = brands, Categories = categories };
 
@@ -62,114 +68,99 @@ namespace SandboxCore11.Features.InventoryItems
         }
 
         // POST: InventoryItems/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
-            [FromServices] ICommandHandlerAsync<CreateInventoryItemCommand> commandHandler,
-            [Bind("Name,Description,BrandId,CategoryId,ReorderLevel,ReorderQuantity")] CreateEditModel createEditModel)
+            [FromServices]ICommandHandlerAsync<CreateInventoryItemCommand> createCommandHandler,
+            CreateInventoryItemCommand createCommand)
         {
-            if (ModelState.IsValid)
-            {
-                var command = mapper.Map<CreateInventoryItemCommand>(createEditModel);
-                await commandHandler.HandleAsync(command);
-                return RedirectToAction("Index");
-            }
+                await createCommandHandler.HandleAsync(createCommand);
 
-            return View();
+                return RedirectToAction("Index");
         }
 
         // GET: InventoryItems/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        [HttpGet("Edit/{InventoryItemId}")]
+        public async Task<IActionResult> Edit(
+            [FromServices]IQueryHandlerAsync<InventoryItemQuery, Queries.InventoryItem> queryHandler,
+            InventoryItemQuery query,
+            [FromServices]IQueryHandlerAsync<BrandsQuery, List<Queries.Brand>> brandsQueryHandler,
+            [FromServices]IQueryHandlerAsync<CategoriesQuery, List<Queries.Category>> categoriesQueryHandler)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var inventoryItem = await queryHandler.HandleAsync(query);
 
-            var inventoryItem = await db.InventoryItems.SingleOrDefaultAsync(m => m.Id == id);
             if (inventoryItem == null)
             {
                 return NotFound();
             }
-            return View(inventoryItem);
+
+            var brands = await brandsQueryHandler.HandleAsync(new BrandsQuery());
+            var categories = await categoriesQueryHandler.HandleAsync(new CategoriesQuery());
+
+            var vm = mapper.Map<EditViewModel>(inventoryItem);
+            vm.Brands = brands;
+            vm.Categories = categories;
+
+            return View(vm);
         }
 
         // POST: InventoryItems/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Edit/{InventoryItemId}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,ReorderLevel,ReorderQuantity")] Data.InventoryItem inventoryItem)
+        public async Task<IActionResult> Edit(
+            [FromServices] ICommandHandlerAsync<EditInventoryItemCommand> editCommandHandler, 
+            EditInventoryItemCommand editCommand)
         {
-            if (id != inventoryItem.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    db.Update(inventoryItem);
-                    await db.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!InventoryItemExists(inventoryItem.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index");
-            }
-            return View(inventoryItem);
+            await editCommandHandler.HandleAsync(editCommand);
+            return RedirectToAction("Index");
         }
 
         // GET: InventoryItems/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [HttpPost("Delete/{inventoryItemId}")]
+        public async Task<IActionResult> Delete(
+            [FromServices]IQueryHandlerAsync<InventoryItemQuery, Queries.InventoryItem> inventoryItemQueryHandler,
+            InventoryItemQuery inventoryItemQuery)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var inventoryItem = await inventoryItemQueryHandler.HandleAsync(inventoryItemQuery);
 
-            var inventoryItem = await db.InventoryItems
-                .SingleOrDefaultAsync(m => m.Id == id);
             if (inventoryItem == null)
             {
                 return NotFound();
             }
 
-            return View(inventoryItem);
+            var vm = mapper.Map<DeleteViewModel>(inventoryItem);
+
+            return View(vm);
         }
 
         // POST: InventoryItems/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost("Delete/{inventoryItemId}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(
+            [FromServices]ICommandHandlerAsync<DeleteInventoryItemCommand> deleteCommandHandler,
+            DeleteInventoryItemCommand deleteCommand)
         {
-            var inventoryItem = await db.InventoryItems.SingleOrDefaultAsync(m => m.Id == id);
-            db.InventoryItems.Remove(inventoryItem);
-            await db.SaveChangesAsync();
+            var result = await deleteCommandHandler.HandleAsync(deleteCommand);
             return RedirectToAction("Index");
         }
 
-        private bool InventoryItemExists(int id)
+        [HttpGet("ValidateName")]
+        public async Task<IActionResult> ValidateName(
+            [FromServices]IQueryHandlerAsync<InventoryItemNameExistsQuery, bool> inventoryItemNameExistsQueryHandler,
+            InventoryItemNameExistsQuery inventoryItemNameExistsQuery,
+            string currentName)
         {
-            return db.InventoryItems.Any(e => e.Id == id);
-        }
-
-        public IActionResult ValidateName(string name)
-        {
-            if (name == "Item 1")
+            var exists = false;
+            if (inventoryItemNameExistsQuery.Name != currentName)
             {
-                return Json($"An inventory item with the name ({name}) already exists.");
+                exists = await inventoryItemNameExistsQueryHandler.HandleAsync(inventoryItemNameExistsQuery);
+            }
+
+            if (exists)
+            {
+                return Json($"An inventory item with the name ({inventoryItemNameExistsQuery.Name}) already exists.");
             }
             else
             {

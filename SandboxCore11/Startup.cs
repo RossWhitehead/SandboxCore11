@@ -15,7 +15,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
-    using SandboxCore11.Commands.CreateInventoryItem;
+    using SandboxCore11.Commands;
     using SandboxCore11.Data;
     using SandboxCore11.Features;
     using SandboxCore11.Features.Account;
@@ -74,13 +74,20 @@
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
             // Queries
+            services.AddTransient<IQueryHandlerAsync<BrandsQuery, List<Queries.Brand>>, BrandsQueryHandler>();
+            services.AddTransient<IQueryHandlerAsync<CategoriesQuery, List<Queries.Category>>, CategoriesQueryHandler>();
             services.AddTransient<IQueryHandlerAsync<InventoryItemsQuery, List<Queries.InventoryItem>>, InventoryItemsQueryHandler>();
+            services.AddTransient<IQueryHandlerAsync<InventoryItemQuery, Queries.InventoryItem>, InventoryItemQueryHandler>();
+            services.AddTransient<IQueryHandlerAsync<InventoryItemNameExistsQuery, bool>, InventoryItemNameExistsQueryHandler>();
+            services.AddTransient<IQueryHandlerAsync<SuppliersQuery, List<Queries.Supplier>>, SuppliersQueryHandler>();
 
             // Commands
             services.AddTransient<ICommandHandlerAsync<CreateInventoryItemCommand>, CreateInventoryItemCommandHandler>();
+            services.AddTransient<ICommandHandlerAsync<EditInventoryItemCommand>, EditInventoryItemCommandHandler>();
 
             // Validators
             services.AddTransient<AbstractValidator<CreateInventoryItemCommand>, CreateInventoryItemCommandValidator>();
+            services.AddTransient<AbstractValidator<EditInventoryItemCommand>, EditInventoryItemCommandValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

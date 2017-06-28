@@ -1,4 +1,4 @@
-@model SandboxCore11.Data.PurchaseOrder
+@model SandboxCore11.Features.PurchaseOrders.CreateViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -10,44 +10,9 @@
     <div class="form-horizontal">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
-            <label asp-for="Status" class="col-md-2 control-label"></label>
+            <label asp-for="Suppliers" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Status" class="form-control" />
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="RequestedDate" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="RequestedDate" class="form-control" />
-                <span asp-validation-for="RequestedDate" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="ConfirmedDate" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="ConfirmedDate" class="form-control" />
-                <span asp-validation-for="ConfirmedDate" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="ExpectedDeliveryDate" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="ExpectedDeliveryDate" class="form-control" />
-                <span asp-validation-for="ExpectedDeliveryDate" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="ReceivedDate" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="ReceivedDate" class="form-control" />
-                <span asp-validation-for="ReceivedDate" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="SupplierId" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <select asp-for="SupplierId" class ="form-control" asp-items="ViewBag.SupplierId"></select>
+                <select name="SupplierId" class="form-control" asp-items="Model.Suppliers"></select>
             </div>
         </div>
         <div class="form-group">

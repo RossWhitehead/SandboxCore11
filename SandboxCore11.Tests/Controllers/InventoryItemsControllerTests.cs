@@ -16,8 +16,7 @@
         public InventoryItemsControllerTests()
         {
             this.expectedInventoryItems = CreateTestInventoryItems();
-            var db = new ApplicationDbContextBuilder().WithInventoryItems(expectedInventoryItems);
-            this.sut = new InventoryItemsController(db, null, null);
+            this.sut = new InventoryItemsController(null, null);
         }
 
         [Fact]
@@ -41,9 +40,9 @@
         {
             var inventoryItems = new List<InventoryItem>()
             {
-                new InventoryItem() { Id = 1, Name = "Item 1" },
-                new InventoryItem() { Id = 2, Name = "Item 2" },
-                new InventoryItem() { Id = 3, Name = "Item 3" }
+                new InventoryItem() { InventoryItemId = 1, Name = "Item 1" },
+                new InventoryItem() { InventoryItemId = 2, Name = "Item 2" },
+                new InventoryItem() { InventoryItemId = 3, Name = "Item 3" }
             };
 
             return inventoryItems;

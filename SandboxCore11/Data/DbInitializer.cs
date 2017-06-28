@@ -73,6 +73,7 @@
             db.RemoveRange(db.Brands);
             db.RemoveRange(db.Categories);
             db.RemoveRange(db.InventoryItems);
+            db.RemoveRange(db.Suppliers);
         }
     }
 }

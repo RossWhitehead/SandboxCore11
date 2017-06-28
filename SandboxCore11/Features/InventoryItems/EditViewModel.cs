@@ -8,11 +8,13 @@
     using Microsoft.AspNetCore.Mvc.Rendering;
     using SandboxCore11.Queries;
 
-    public class CreateViewModel
+    public class EditViewModel
     {
+        public int InventoryItemId { get; set; }
+
         [StringLength(100, MinimumLength = 3)]
         [Required]
-        [Remote("ValidateName", "InventoryItems")]
+        [Remote("ValidateName", "InventoryItems", AdditionalFields = "CurrentName")]
         public string Name { get; set; }
 
         [StringLength(1000)]

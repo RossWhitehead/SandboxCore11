@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SandboxCore11.Data;
+using SandboxCore11.Infrastructure.Query;
+using SandboxCore11.Queries;
 
 namespace SandboxCore11.Features.PurchaseOrders
 {
@@ -15,7 +17,7 @@ namespace SandboxCore11.Features.PurchaseOrders
 
         public PurchaseOrdersController(ApplicationDbContext context)
         {
-            _context = context;    
+            _context = context;
         }
 
         // GET: PurchaseOrders
@@ -45,10 +47,11 @@ namespace SandboxCore11.Features.PurchaseOrders
         }
 
         // GET: PurchaseOrders/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create([FromServices]IQueryHandlerAsync<SuppliersQuery, List<Queries.Supplier>> queryHandler)
         {
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "SupplierId");
-            return View();
+            var suppliers = await queryHandler.HandleAsync(new SuppliersQuery());
+            var vm = new CreateViewModel(suppliers);
+            return View(vm);
         }
 
         // POST: PurchaseOrders/Create
