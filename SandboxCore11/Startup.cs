@@ -75,18 +75,26 @@
 
             // Queries
             services.AddTransient<IQueryHandlerAsync<BrandsQuery, List<Queries.Brand>>, BrandsQueryHandler>();
+
             services.AddTransient<IQueryHandlerAsync<CategoriesQuery, List<Queries.Category>>, CategoriesQueryHandler>();
+
             services.AddTransient<IQueryHandlerAsync<InventoryItemsQuery, List<Queries.InventoryItem>>, InventoryItemsQueryHandler>();
             services.AddTransient<IQueryHandlerAsync<InventoryItemQuery, Queries.InventoryItem>, InventoryItemQueryHandler>();
             services.AddTransient<IQueryHandlerAsync<InventoryItemNameExistsQuery, bool>, InventoryItemNameExistsQueryHandler>();
+
+            services.AddTransient<IQueryHandlerAsync<PurchaseOrderQuery, Queries.PurchaseOrder>, PurchaseOrderQueryHandler>();
+            services.AddTransient<IQueryHandlerAsync<PurchaseOrdersQuery, List<Queries.PurchaseOrder>>, PurchaseOrdersQueryHandler>();
+
             services.AddTransient<IQueryHandlerAsync<SuppliersQuery, List<Queries.Supplier>>, SuppliersQueryHandler>();
 
             // Commands
             services.AddTransient<ICommandHandlerAsync<CreateInventoryItemCommand>, CreateInventoryItemCommandHandler>();
             services.AddTransient<ICommandHandlerAsync<EditInventoryItemCommand>, EditInventoryItemCommandHandler>();
+            services.AddTransient<ICommandHandlerAsync<CreatePurchaseOrderCommand>, CreatePurchaseOrderCommandHandler>();
 
             // Validators
             services.AddTransient<AbstractValidator<CreateInventoryItemCommand>, CreateInventoryItemCommandValidator>();
+            services.AddTransient<AbstractValidator<CreatePurchaseOrderCommand>, CreatePurchaseOrderCommandValidator>();
             services.AddTransient<AbstractValidator<EditInventoryItemCommand>, EditInventoryItemCommandValidator>();
         }
 

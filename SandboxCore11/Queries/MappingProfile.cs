@@ -1,7 +1,6 @@
 ﻿namespace SandboxCore11.Queries
 {
     using AutoMapper;
-    using SandboxCore11.Features.InventoryItems;
 
     public class MappingProfile : Profile
     {
@@ -15,6 +14,9 @@
 
             // Inventory items
             CreateMap<Data.InventoryItem, InventoryItem>();
+
+            // Purchase orders
+            CreateMap<Data.PurchaseOrder, PurchaseOrder>();
 
             // Suppliers
             CreateMap<Data.Supplier, Supplier>();

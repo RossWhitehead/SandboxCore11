@@ -1,14 +1,12 @@
-@model SandboxCore11.Data.PurchaseOrder
+@model SandboxCore11.Queries.PurchaseOrder
 
 @{
     ViewData["Title"] = "Details";
+    ViewData["Header"] = "Purchase orders details";
+    ViewData["SubHeader"] = "As it says on the tin.";
 }
 
-<h2>Details</h2>
-
 <div>
-    <h4>PurchaseOrder</h4>
-    <hr />
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Status)
@@ -17,7 +15,7 @@
             @Html.DisplayFor(model => model.Status)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.RequestedDate)
+            <date-time value="@Model.RequestedDate" />
         </dt>
         <dd>
             @Html.DisplayFor(model => model.RequestedDate)
@@ -26,25 +24,25 @@
             @Html.DisplayNameFor(model => model.ConfirmedDate)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.ConfirmedDate)
+            <nullable-date-time value="@Model.ConfirmedDate" />
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.ExpectedDeliveryDate)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.ExpectedDeliveryDate)
+            <nullable-date-time value="@Model.ExpectedDeliveryDate" />
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.ReceivedDate)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.ReceivedDate)
+            <nullable-date-time value="@Model.ReceivedDate" />
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Supplier)
+            @Html.DisplayNameFor(model => model.SupplierName)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Supplier.SupplierId)
+            @Html.DisplayFor(model => model.SupplierName)
         </dd>
     </dl>
 </div>

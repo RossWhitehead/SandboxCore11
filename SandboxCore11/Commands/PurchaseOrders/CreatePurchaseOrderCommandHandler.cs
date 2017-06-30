@@ -26,8 +26,8 @@
         {
             var isValid = await Validate(command);
 
-            var inventoryItem = mapper.Map<Data.PurchaseOrder>(command);
-            db.Add(inventoryItem);
+            var purchaseOrder = mapper.Map<Data.PurchaseOrder>(command);
+            db.Add(purchaseOrder);
             await db.SaveChangesAsync();
 
             return new CommandResult(true, string.Empty);

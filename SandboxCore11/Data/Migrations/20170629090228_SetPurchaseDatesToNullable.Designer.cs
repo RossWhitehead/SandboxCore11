@@ -8,9 +8,10 @@ using SandboxCore11.Data;
 namespace SandboxCore11.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170629090228_SetPurchaseDatesToNullable")]
+    partial class SetPurchaseDatesToNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

@@ -1,10 +1,10 @@
-@model IEnumerable<SandboxCore11.Data.PurchaseOrder>
+@model IEnumerable<SandboxCore11.Queries.PurchaseOrder>
 
 @{
     ViewData["Title"] = "Index";
+    ViewData["Header"] = "Purchase orders";
+    ViewData["SubHeader"] = "As it says on the tin.";
 }
-
-<h2>Index</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -12,54 +12,66 @@
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Status)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.RequestedDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ConfirmedDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ExpectedDeliveryDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ReceivedDate)
-                </th>
             <th>
-                @Html.DisplayNameFor(model => model.Supplier)
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RequestedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConfirmedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpectedDeliveryDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceivedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SupplierName)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RequestedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ConfirmedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExpectedDeliveryDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReceivedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Supplier.SupplierId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.PurchaseOrderId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PurchaseOrderId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PurchaseOrderId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    <date-time value="@item.RequestedDate" />
+                </td>
+                <td>
+                    <nullable-date-time value="@item.ConfirmedDate" />
+                </td>
+                <td>
+                    <nullable-date-time value="@item.ExpectedDeliveryDate" />
+                </td>
+                <td>
+                    <nullable-date-time value="@item.ReceivedDate" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SupplierName)
+                </td>
+                <td>
+                @if (item.Status == "Requested")
+                {
+                    <a asp-action="Confirm" asp-route-id="@item.PurchaseOrderId">Confirm</a><text> |</text>
+                }
+                else if (item.Status == "Confirmed")
+                {
+                    <a asp-action="Received" asp-route-id="@item.PurchaseOrderId">Receive</a><text> |</text>
+                }
+                @if (item.Status != "Received")
+                {
+                    <a asp-action="Cancelled" asp-route-id="@item.PurchaseOrderId">Cancel</a><text> |</text>
+                    <a asp-action="Edit" asp-route-id="@item.PurchaseOrderId">Edit</a><text> |</text>
+                }
+                    <a asp-action="Details" asp-route-id="@item.PurchaseOrderId">Details</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
