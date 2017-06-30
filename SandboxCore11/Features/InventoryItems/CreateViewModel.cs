@@ -1,14 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using SandboxCore11.Data;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-
-namespace SandboxCore11.Features.InventoryItems
+﻿namespace SandboxCore11.Features.InventoryItems
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using SandboxCore11.Queries;
+
     public class CreateViewModel
     {
         [StringLength(100, MinimumLength = 3)]

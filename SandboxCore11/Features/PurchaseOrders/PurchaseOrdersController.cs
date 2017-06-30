@@ -1,41 +1,34 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using SandboxCore11.Data;
-
 namespace SandboxCore11.Features.PurchaseOrders
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using SandboxCore11.Commands;
+    using SandboxCore11.Infrastructure.Command;
+    using SandboxCore11.Infrastructure.Query;
+    using SandboxCore11.Queries;
+
     public class PurchaseOrdersController : Controller
     {
-        private readonly ApplicationDbContext _context;
-
-        public PurchaseOrdersController(ApplicationDbContext context)
+        public PurchaseOrdersController()
         {
-            _context = context;    
         }
 
         // GET: PurchaseOrders
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromServices]IQueryHandlerAsync<PurchaseOrdersQuery, List<PurchaseOrder>> queryHandler)
         {
-            var applicationDbContext = _context.PurchaseOrders.Include(p => p.Supplier);
-            return View(await applicationDbContext.ToListAsync());
+            var vm = await queryHandler.HandleAsync(new PurchaseOrdersQuery());
+            return View(vm);
         }
 
         // GET: PurchaseOrders/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(
+            PurchaseOrderQuery query,
+            [FromServices]IQueryHandlerAsync<PurchaseOrderQuery, PurchaseOrder> queryHandler)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var purchaseOrder = await queryHandler.HandleAsync(query);
 
-            var purchaseOrder = await _context.PurchaseOrders
-                .Include(p => p.Supplier)
-                .SingleOrDefaultAsync(m => m.PurchaseOrderId == id);
             if (purchaseOrder == null)
             {
                 return NotFound();
@@ -45,10 +38,17 @@ namespace SandboxCore11.Features.PurchaseOrders
         }
 
         // GET: PurchaseOrders/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(
+            [FromServices]IQueryHandlerAsync<SuppliersQuery, List<Supplier>> suppliersQueryHandler,
+            [FromServices]IQueryHandlerAsync<InventoryItemsQuery, List<InventoryItem>> inventoryItemsQueryHandler)
         {
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "SupplierId");
-            return View();
+            var suppliers = await suppliersQueryHandler.HandleAsync(new SuppliersQuery());
+
+            var inventoryItems = await inventoryItemsQueryHandler.HandleAsync(new InventoryItemsQuery());
+
+            var vm = new CreateViewModel(suppliers, inventoryItems);
+
+            return View(vm);
         }
 
         // POST: PurchaseOrders/Create
@@ -56,33 +56,32 @@ namespace SandboxCore11.Features.PurchaseOrders
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PurchaseOrderId,Status,RequestedDate,ConfirmedDate,ExpectedDeliveryDate,ReceivedDate,SupplierId")] PurchaseOrder purchaseOrder)
+        public async Task<IActionResult> Create(
+            [FromServices]ICommandHandlerAsync<CreatePurchaseOrderCommand> createCommandHandler,
+            CreatePurchaseOrderCommand createCommand)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(purchaseOrder);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "SupplierId", purchaseOrder.SupplierId);
-            return View(purchaseOrder);
+            var result = await createCommandHandler.HandleAsync(createCommand);
+
+            return RedirectToAction("Index");
         }
 
         // GET: PurchaseOrders/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
 
-            var purchaseOrder = await _context.PurchaseOrders.SingleOrDefaultAsync(m => m.PurchaseOrderId == id);
-            if (purchaseOrder == null)
-            {
-                return NotFound();
-            }
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "SupplierId", purchaseOrder.SupplierId);
-            return View(purchaseOrder);
+            //var purchaseOrder = await _context.PurchaseOrders.SingleOrDefaultAsync(m => m.PurchaseOrderId == id);
+            //if (purchaseOrder == null)
+            //{
+            //    return NotFound();
+            //}
+            //ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "SupplierId", purchaseOrder.SupplierId);
+            //return View(purchaseOrder);
+
+            throw new NotImplementedException();
         }
 
         // POST: PurchaseOrders/Edit/5
@@ -90,70 +89,37 @@ namespace SandboxCore11.Features.PurchaseOrders
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PurchaseOrderId,Status,RequestedDate,ConfirmedDate,ExpectedDeliveryDate,ReceivedDate,SupplierId")] PurchaseOrder purchaseOrder)
+        public async Task<IActionResult> Edit(int id, [Bind("PurchaseOrderId,Status,RequestedDate,ConfirmedDate,ExpectedDeliveryDate,ReceivedDate,SupplierId")] Data.PurchaseOrder purchaseOrder)
         {
-            if (id != purchaseOrder.PurchaseOrderId)
-            {
-                return NotFound();
-            }
+            //if (id != purchaseOrder.PurchaseOrderId)
+            //{
+            //    return NotFound();
+            //}
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(purchaseOrder);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PurchaseOrderExists(purchaseOrder.PurchaseOrderId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index");
-            }
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "SupplierId", purchaseOrder.SupplierId);
-            return View(purchaseOrder);
-        }
+            //if (ModelState.IsValid)
+            //{
+            //    try
+            //    {
+            //        _context.Update(purchaseOrder);
+            //        await _context.SaveChangesAsync();
+            //    }
+            //    catch (DbUpdateConcurrencyException)
+            //    {
+            //        if (!PurchaseOrderExists(purchaseOrder.PurchaseOrderId))
+            //        {
+            //            return NotFound();
+            //        }
+            //        else
+            //        {
+            //            throw;
+            //        }
+            //    }
+            //    return RedirectToAction("Index");
+            //}
+            //ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "SupplierId", purchaseOrder.SupplierId);
+            //return View(purchaseOrder);
 
-        // GET: PurchaseOrders/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var purchaseOrder = await _context.PurchaseOrders
-                .Include(p => p.Supplier)
-                .SingleOrDefaultAsync(m => m.PurchaseOrderId == id);
-            if (purchaseOrder == null)
-            {
-                return NotFound();
-            }
-
-            return View(purchaseOrder);
-        }
-
-        // POST: PurchaseOrders/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var purchaseOrder = await _context.PurchaseOrders.SingleOrDefaultAsync(m => m.PurchaseOrderId == id);
-            _context.PurchaseOrders.Remove(purchaseOrder);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
-        private bool PurchaseOrderExists(int id)
-        {
-            return _context.PurchaseOrders.Any(e => e.PurchaseOrderId == id);
+            throw new NotImplementedException();
         }
     }
 }

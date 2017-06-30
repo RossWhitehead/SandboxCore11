@@ -21,7 +21,7 @@
 
         public async Task<List<InventoryItem>> HandleAsync(InventoryItemsQuery query)
         {
-            var data = await db.InventoryItems.ToListAsync();
+            var data = await db.InventoryItems.Include(x => x.Brand).Include(x => x.Category).ToListAsync();
             var inventoryItems = mapper.Map<List<InventoryItem>>(data);
             return inventoryItems;
         }

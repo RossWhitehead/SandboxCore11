@@ -1,8 +1,8 @@
-﻿namespace SandboxCore11.Queries
+﻿namespace SandboxCore11.Features.InventoryItems
 {
-    public class InventoryItem
+    public class DeleteViewModel
     {
-        public int Id { get; set; }
+        public int InventoryId { get; set; }
 
         public string Name { get; set; }
 

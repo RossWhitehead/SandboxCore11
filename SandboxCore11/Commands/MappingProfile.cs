@@ -6,8 +6,13 @@
     {
         public MappingProfile()
         {
-            // Create Inventory item
+            // Inventory items
             CreateMap<CreateInventoryItemCommand, Data.InventoryItem>();
+            CreateMap<EditInventoryItemCommand, Data.InventoryItem>();
+
+            // Purchase orders
+            CreateMap<CreatePurchaseOrderCommand, Data.PurchaseOrder>();
+            CreateMap<PurchaseOrderDetail, Data.PurchaseOrderDetail>();
         }
     }
 }

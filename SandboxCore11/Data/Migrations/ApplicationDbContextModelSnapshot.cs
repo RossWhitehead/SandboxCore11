@@ -153,7 +153,7 @@ namespace SandboxCore11.Data.Migrations
 
             modelBuilder.Entity("SandboxCore11.Data.InventoryItem", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("InventoryItemId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("BrandId");
@@ -171,7 +171,7 @@ namespace SandboxCore11.Data.Migrations
 
                     b.Property<int>("ReorderQuantity");
 
-                    b.HasKey("Id");
+                    b.HasKey("InventoryItemId");
 
                     b.HasIndex("BrandId");
 
@@ -185,11 +185,11 @@ namespace SandboxCore11.Data.Migrations
                     b.Property<int>("PurchaseOrderId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("ConfirmedDate");
+                    b.Property<DateTime?>("ConfirmedDate");
 
-                    b.Property<DateTime>("ExpectedDeliveryDate");
+                    b.Property<DateTime?>("ExpectedDeliveryDate");
 
-                    b.Property<DateTime>("ReceivedDate");
+                    b.Property<DateTime?>("ReceivedDate");
 
                     b.Property<DateTime>("RequestedDate");
 

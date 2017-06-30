@@ -14,7 +14,6 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <Content Include="wwwroot\css\custom.css" />
     <Content Include="wwwroot\css\font-awesome.css" />
     <Content Include="wwwroot\css\sb-admin-2.css" />
     <Content Include="wwwroot\fonts\fontawesome-webfont.eot" />
@@ -30,7 +29,8 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.1.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="2.0.1" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="7.0.3" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="1.1.2" />
