@@ -123,7 +123,7 @@
 
             app.UseMvcWithDefaultRoute();
 
-            //Populates the MusicStore sample data
+            //Populate sample data
             DbInitializer.Seed(app.ApplicationServices).Wait();
         }
     }
