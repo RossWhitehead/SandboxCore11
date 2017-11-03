@@ -59,17 +59,6 @@
 
             var expectedViewModel = new Fixture().Create<DetailsViewModel>();
 
-            //var expectedViewModel = new DetailsViewModel()
-            //{
-            //    InventoryItemId = 1,
-            //    Brand = default(Guid).ToString(),
-            //    Category = default(Guid).ToString(),
-            //    Description = default(Guid).ToString(),
-            //    Name = default(Guid).ToString(),
-            //    ReorderLevel = 2,
-            //    ReorderQuantity = 3
-            //};
-
             var mockQueryHandler = new Mock<IQueryHandlerAsync<InventoryItemQuery, InventoryItem>>();
             mockQueryHandler.Setup(x => x.HandleAsync(queryFixture)).ReturnsAsync(expectedInventoryItem);
 
@@ -108,12 +97,9 @@
 
         private static List<InventoryItem> CreateTestInventoryItems()
         {
-            var inventoryItems = new List<InventoryItem>()
-            {
-                new InventoryItem() { InventoryItemId = 1, Name = "Item 1" },
-                new InventoryItem() { InventoryItemId = 2, Name = "Item 2" },
-                new InventoryItem() { InventoryItemId = 3, Name = "Item 3" }
-            };
+            var fixture = new Fixture();
+
+            var inventoryItems = fixture.Create<List<InventoryItem>>();
 
             return inventoryItems;
         }

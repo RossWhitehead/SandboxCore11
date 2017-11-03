@@ -11,7 +11,11 @@
             itemIdSelector: '.item-id',
             itemUnitPriceSelector: '.item-unit-price',
             itemQuantitySelector: '.item-quantity',
-            itemTotalPriceSelector: '.item-total-price'
+            itemTotalPriceSelector: '.item-total-price',
+            productSearchButtonSelector: '#productSearchButton',
+            productSearchPanelSelector: '#productSearchPanel',
+            productSearchResultTemplate: '#searchResultTemplate',
+            productSearchTableBody: '#productSearchTableBody'
         }
 
         new PurchaseOrderCreate(view);
@@ -27,7 +31,11 @@
         itemIdSelector: string;
         itemUnitPriceSelector: string,
         itemQuantitySelector: string,
-        itemTotalPriceSelector: string
+        itemTotalPriceSelector: string,
+        productSearchButtonSelector: string,
+        productSearchPanelSelector: string,
+        productSearchResultTemplate: string,
+        productSearchTableBody: string
     }
 
     class PurchaseOrderCreate {
@@ -43,7 +51,7 @@
 
             const $clone = $itemTemplate.clone(true, true);
 
-            const $appendedClone = $(this.view.itemsTableBodySelector).append($clone.html());
+            const $appendedClone = $itemTableBody.append($clone.html());
 
             $appendedClone.find(this.view.itemIdSelector + ':last').attr('name', `purchaseOrderDetails[${itemCount}].inventoryItemId`);
             $appendedClone.find(this.view.itemUnitPriceSelector).last().attr('name', `purchaseOrderDetails[${itemCount}].unitPrice`);
@@ -55,6 +63,7 @@
         private initialize(): void {
             $(this.view.addButtonSelector).on('click', () => this.addItem());
             $(this.view.saveButtonSelector).on('click', () => this.save());
+            $(this.view.productSearchButtonSelector).on('click', () => this.search());
             $(this.view.itemsTableBodySelector).on('change', this.view.itemIdSelector, (event: Event) => this.populateItem(event));
             $(this.view.itemsTableBodySelector).on('keyup', this.view.itemQuantitySelector, (event: Event) => this.quantityChanged(event));
 
@@ -74,14 +83,24 @@
             this.toggleAddPanel(false);
         }
 
-        private toggleAddPanel(show: boolean): void {
-            $(this.view.addPanelSelector).toggle(show);
-        }
-
         private quantityChanged(event: Event): void {
             var $item = $(event.target).closest('tr');
 
             this.updateTotal($item);
+        }
+
+        private search(): void {
+            const $productSearchResultTemplate = $(this.view.productSearchResultTemplate);
+            const $itemTableBody = $(this.view.productSearchTableBody);
+
+            const $clone = $productSearchResultTemplate.clone(true, true);
+
+            const $appendedClone = $itemTableBody.append($clone.html());
+
+        }
+
+        private toggleAddPanel(show: boolean): void {
+            $(this.view.addPanelSelector).toggle(show);
         }
 
         private updateTotal($item: JQuery): void {

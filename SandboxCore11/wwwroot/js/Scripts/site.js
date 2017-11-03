@@ -5,6 +5,7 @@ var SandboxCore11;
         }
         Message.prototype.display = function (message) {
             console.log('Message:' + message);
+            var hello = $('hello');
         };
         return Message;
     }());

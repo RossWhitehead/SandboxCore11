@@ -2,6 +2,7 @@
     export class Message {
         display(message: string) {
             console.log('Message:' + message);
+            var hello = $('hello');
         }
     }
 }
