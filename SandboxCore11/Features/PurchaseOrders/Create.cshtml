@@ -49,6 +49,28 @@
     </tr>
 </template>
 
+<div id="productSearch">
+    Product Search
+    <input name="searchTerm" type="text" placeholder="Enter full or partial search string"/>
+    <input id="productSearchButton" type="button" value="Search" class="btn btn-default" />
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="productSearchTableBody"></tbody>
+    </table>
+</div>
+
+<template id="searchResultTemplate" class="display-none">
+    <tr>
+        <td><input class="readonly" type="text" value="" readonly /></td>
+        <td></td>
+    </tr>
+</template>
+
 <div>
     <a asp-action="Index">Back to List</a>
 </div>

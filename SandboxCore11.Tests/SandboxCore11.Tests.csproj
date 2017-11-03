@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <Reference Include="FixtureBuilder">
-      <HintPath>..\..\FixtureBuilder\FixtureBuilder\bin\Release\netcoreapp1.1\FixtureBuilder.dll</HintPath>
+      <HintPath>..\..\FixtureBuilder\FixtureBuilder\bin\Debug\netcoreapp1.1\FixtureBuilder.dll</HintPath>
     </Reference>
   </ItemGroup>
 

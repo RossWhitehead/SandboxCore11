@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace SandboxCore11.Data.Migrations
+﻿namespace SandboxCore11.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class RenameInventoryItemId : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
