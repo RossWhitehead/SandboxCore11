@@ -1,0 +1,498 @@
+2018-01-06 16:16:20.800 +00:00 [Information] Executed DbCommand (535ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [b].[BrandId], [b].[Name]
+FROM [Brands] AS [b]
+2018-01-06 16:16:21.555 +00:00 [Information] Executed DbCommand (70ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[CategoryId], [c].[Name]
+FROM [Categories] AS [c]
+2018-01-06 16:16:21.693 +00:00 [Information] Executed DbCommand (41ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [i].[InventoryItemId], [i].[BrandId], [i].[CategoryId], [i].[Description], [i].[Name], [i].[ReorderLevel], [i].[ReorderQuantity]
+FROM [InventoryItems] AS [i]
+2018-01-06 16:16:21.865 +00:00 [Information] Executed DbCommand (101ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [s].[SupplierId], [s].[Name]
+FROM [Suppliers] AS [s]
+2018-01-06 16:16:24.389 +00:00 [Information] Executed DbCommand (1,798ms) [Parameters=[@p0='?' (Size = 100), @p1='?' (Size = 100), @p2='?' (Size = 100), @p3='?' (Size = 100), @p4='?', @p5='?', @p6='?', @p7='?', @p8='?', @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+DECLARE @toInsert0 TABLE ([Name] nvarchar(100), [_Position] [int]);
+INSERT INTO @toInsert0
+VALUES (@p0, 0),
+(@p1, 1);
+
+DECLARE @inserted0 TABLE ([BrandId] int, [_Position] [int]);
+MERGE [Brands] USING @toInsert0 AS i ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([Name])
+VALUES (i.[Name])
+OUTPUT INSERTED.[BrandId], i._Position
+INTO @inserted0;
+
+SELECT [t].[BrandId] FROM [Brands] t
+INNER JOIN @inserted0 i ON ([t].[BrandId] = [i].[BrandId])
+ORDER BY [i].[_Position];
+
+DECLARE @toInsert2 TABLE ([Name] nvarchar(100), [_Position] [int]);
+INSERT INTO @toInsert2
+VALUES (@p2, 0),
+(@p3, 1);
+
+DECLARE @inserted2 TABLE ([CategoryId] int, [_Position] [int]);
+MERGE [Categories] USING @toInsert2 AS i ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([Name])
+VALUES (i.[Name])
+OUTPUT INSERTED.[CategoryId], i._Position
+INTO @inserted2;
+
+SELECT [t].[CategoryId] FROM [Categories] t
+INNER JOIN @inserted2 i ON ([t].[CategoryId] = [i].[CategoryId])
+ORDER BY [i].[_Position];
+
+DELETE FROM [InventoryItems]
+WHERE [InventoryItemId] = @p4;
+SELECT @@ROWCOUNT;
+
+DELETE FROM [InventoryItems]
+WHERE [InventoryItemId] = @p5;
+SELECT @@ROWCOUNT;
+
+DELETE FROM [InventoryItems]
+WHERE [InventoryItemId] = @p6;
+SELECT @@ROWCOUNT;
+
+DELETE FROM [Suppliers]
+WHERE [SupplierId] = @p7;
+SELECT @@ROWCOUNT;
+
+DELETE FROM [Suppliers]
+WHERE [SupplierId] = @p8;
+SELECT @@ROWCOUNT;
+
+DECLARE @toInsert9 TABLE ([Name] nvarchar(max), [_Position] [int]);
+INSERT INTO @toInsert9
+VALUES (@p9, 0),
+(@p10, 1);
+
+DECLARE @inserted9 TABLE ([SupplierId] int, [_Position] [int]);
+MERGE [Suppliers] USING @toInsert9 AS i ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([Name])
+VALUES (i.[Name])
+OUTPUT INSERTED.[SupplierId], i._Position
+INTO @inserted9;
+
+SELECT [t].[SupplierId] FROM [Suppliers] t
+INNER JOIN @inserted9 i ON ([t].[SupplierId] = [i].[SupplierId])
+ORDER BY [i].[_Position];
+2018-01-06 16:16:24.630 +00:00 [Information] Executed DbCommand (94ms) [Parameters=[@p11='?', @p12='?', @p13='?', @p14='?', @p15='?', @p16='?', @p17='?' (Size = 1000), @p18='?' (Size = 100), @p19='?', @p20='?', @p21='?', @p22='?', @p23='?' (Size = 1000), @p24='?' (Size = 100), @p25='?', @p26='?', @p27='?', @p28='?', @p29='?' (Size = 1000), @p30='?' (Size = 100), @p31='?', @p32='?', @p33='?', @p34='?', @p35='?', @p36='?', @p37='?' (Size = 4000), @p38='?', @p39='?', @p40='?', @p41='?', @p42='?', @p43='?' (Size = 4000), @p44='?', @p45='?', @p46='?', @p47='?', @p48='?', @p49='?' (Size = 4000), @p50='?', @p51='?', @p52='?', @p53='?', @p54='?', @p55='?' (Size = 4000), @p56='?', @p57='?', @p58='?', @p59='?', @p60='?', @p61='?' (Size = 4000), @p62='?', @p63='?', @p64='?', @p65='?', @p66='?', @p67='?' (Size = 4000), @p68='?'], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+DELETE FROM [Brands]
+WHERE [BrandId] = @p11;
+SELECT @@ROWCOUNT;
+
+DELETE FROM [Brands]
+WHERE [BrandId] = @p12;
+SELECT @@ROWCOUNT;
+
+DELETE FROM [Categories]
+WHERE [CategoryId] = @p13;
+SELECT @@ROWCOUNT;
+
+DELETE FROM [Categories]
+WHERE [CategoryId] = @p14;
+SELECT @@ROWCOUNT;
+
+DECLARE @toInsert4 TABLE ([BrandId] int, [CategoryId] int, [Description] nvarchar(1000), [Name] nvarchar(100), [ReorderLevel] int, [ReorderQuantity] int, [_Position] [int]);
+INSERT INTO @toInsert4
+VALUES (@p15, @p16, @p17, @p18, @p19, @p20, 0),
+(@p21, @p22, @p23, @p24, @p25, @p26, 1),
+(@p27, @p28, @p29, @p30, @p31, @p32, 2);
+
+DECLARE @inserted4 TABLE ([InventoryItemId] int, [_Position] [int]);
+MERGE [InventoryItems] USING @toInsert4 AS i ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([BrandId], [CategoryId], [Description], [Name], [ReorderLevel], [ReorderQuantity])
+VALUES (i.[BrandId], i.[CategoryId], i.[Description], i.[Name], i.[ReorderLevel], i.[ReorderQuantity])
+OUTPUT INSERTED.[InventoryItemId], i._Position
+INTO @inserted4;
+
+SELECT [t].[InventoryItemId] FROM [InventoryItems] t
+INNER JOIN @inserted4 i ON ([t].[InventoryItemId] = [i].[InventoryItemId])
+ORDER BY [i].[_Position];
+
+DECLARE @toInsert7 TABLE ([ConfirmedDate] datetime2, [ExpectedDeliveryDate] datetime2, [ReceivedDate] datetime2, [RequestedDate] datetime2, [Status] nvarchar(max), [SupplierId] int, [_Position] [int]);
+INSERT INTO @toInsert7
+VALUES (@p33, @p34, @p35, @p36, @p37, @p38, 0),
+(@p39, @p40, @p41, @p42, @p43, @p44, 1),
+(@p45, @p46, @p47, @p48, @p49, @p50, 2),
+(@p51, @p52, @p53, @p54, @p55, @p56, 3),
+(@p57, @p58, @p59, @p60, @p61, @p62, 4),
+(@p63, @p64, @p65, @p66, @p67, @p68, 5);
+
+DECLARE @inserted7 TABLE ([PurchaseOrderId] int, [_Position] [int]);
+MERGE [PurchaseOrders] USING @toInsert7 AS i ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([ConfirmedDate], [ExpectedDeliveryDate], [ReceivedDate], [RequestedDate], [Status], [SupplierId])
+VALUES (i.[ConfirmedDate], i.[ExpectedDeliveryDate], i.[ReceivedDate], i.[RequestedDate], i.[Status], i.[SupplierId])
+OUTPUT INSERTED.[PurchaseOrderId], i._Position
+INTO @inserted7;
+
+SELECT [t].[PurchaseOrderId] FROM [PurchaseOrders] t
+INNER JOIN @inserted7 i ON ([t].[PurchaseOrderId] = [i].[PurchaseOrderId])
+ORDER BY [i].[_Position];
+2018-01-06 16:16:24.756 +00:00 [Information] User profile is available. Using '"C:\Users\rosss\AppData\Local\ASP.NET\DataProtection-Keys"' as key repository and Windows DPAPI to encrypt keys at rest.
+2018-01-06 16:16:25.901 +00:00 [Information] Request starting HTTP/1.1 GET http://localhost:61462/  
+2018-01-06 16:16:28.445 +00:00 [Information] Executing action method "SandboxCore11.Features.Home.HomeController.Index (SandboxCore11)" with arguments (null) - ModelState is Valid
+2018-01-06 16:16:35.902 +00:00 [Information] Executing ViewResult, running view at path "/Features/Home/Index.cshtml".
+2018-01-06 16:16:36.777 +00:00 [Information] Executed DbCommand (100ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [po].[PurchaseOrderId], [po].[ConfirmedDate], [po].[ExpectedDeliveryDate], [po].[ReceivedDate], [po].[RequestedDate], [po].[Status], [po].[SupplierId], [s].[SupplierId], [s].[Name]
+FROM [PurchaseOrders] AS [po]
+INNER JOIN [Suppliers] AS [s] ON [po].[SupplierId] = [s].[SupplierId]
+2018-01-06 16:16:39.090 +00:00 [Information] Executed action "SandboxCore11.Features.Home.HomeController.Index (SandboxCore11)" in 10765.6584ms
+2018-01-06 16:16:39.188 +00:00 [Information] Request finished in 13294.1452ms 200 text/html; charset=utf-8
+2018-01-06 16:16:39.224 +00:00 [Information] Request starting HTTP/1.1 GET http://localhost:61462/lib/bootstrap/dist/css/bootstrap.css  
+2018-01-06 16:16:39.262 +00:00 [Information] Request starting HTTP/1.1 GET http://localhost:61462/lib/jquery/dist/jquery.js  
+2018-01-06 16:16:39.277 +00:00 [Information] Request starting HTTP/1.1 GET http://localhost:61462/css/site.css  
+2018-01-06 16:16:39.288 +00:00 [Information] Sending file. Request path: '"/lib/jquery/dist/jquery.js"'. Physical path: '"C:\Repos\SandboxCore11\SandboxCore11\wwwroot\lib\jquery\dist\jquery.js"'
+2018-01-06 16:16:39.297 +00:00 [Information] Sending file. Request path: '"/lib/bootstrap/dist/css/bootstrap.css"'. Physical path: '"C:\Repos\SandboxCore11\SandboxCore11\wwwroot\lib\bootstrap\dist\css\bootstrap.css"'
+2018-01-06 16:16:39.304 +00:00 [Information] Sending file. Request path: '"/css/site.css"'. Physical path: '"C:\Repos\SandboxCore11\SandboxCore11\wwwroot\css\site.css"'
+2018-01-06 16:16:39.403 +00:00 [Information] Request starting HTTP/1.1 GET http://localhost:61462/css/font-awesome.css  
+2018-01-06 16:16:39.433 +00:00 [Information] Sending file. Request path: '"/css/font-awesome.css"'. Physical path: '"C:\Repos\SandboxCore11\SandboxCore11\wwwroot\css\font-awesome.css"'
+2018-01-06 16:16:39.436 +00:00 [Information] Request finished in 158.2035ms 200 text/css
+2018-01-06 16:16:39.444 +00:00 [Information] Request starting HTTP/1.1 GET http://localhost:61462/js/scripts/site.js?v=gh9TpiS0Oo24fjeUzCVkLsgqlMeG-FcwEfHMFjCRmHY  
+2018-01-06 16:16:39.449 +00:00 [Information] Sending file. Request path: '"/js/scripts/site.js"'. Physical path: '"C:\Repos\SandboxCore11\SandboxCore11\wwwroot\js\scripts\site.js"'
+2018-01-06 16:16:39.471 +00:00 [Information] Request starting HTTP/1.1 GET http://localhost:61462/lib/bootstrap/dist/js/bootstrap.js  
+2018-01-06 16:16:39.514 +00:00 [Information] Sending file. Request path: '"/lib/bootstrap/dist/js/bootstrap.js"'. Physical path: '"C:\Repos\SandboxCore11\SandboxCore11\wwwroot\lib\bootstrap\dist\js\bootstrap.js"'
+2018-01-06 16:16:39.625 +00:00 [Information] Request finished in 196.6405ms 200 text/css
+2018-01-06 16:16:39.628 +00:00 [Information] Request finished in 67.5746ms 200 application/javascript
+2018-01-06 16:16:39.676 +00:00 [Information] Request starting HTTP/1.1 GET http://localhost:61462/css/sb-admin-2.css  
+2018-01-06 16:16:39.688 +00:00 [Information] Request finished in 189.8ms 200 application/javascript
+2018-01-06 16:16:39.706 +00:00 [Information] Request starting HTTP/1.1 GET http://localhost:61462/fonts/fontawesome-webfont.woff?v=4.2.0  
+2018-01-06 16:16:39.793 +00:00 [Information] Sending file. Request path: '"/css/sb-admin-2.css"'. Physical path: '"C:\Repos\SandboxCore11\SandboxCore11\wwwroot\css\sb-admin-2.css"'
+2018-01-06 16:16:39.797 +00:00 [Information] Sending file. Request path: '"/fonts/fontawesome-webfont.woff"'. Physical path: '"C:\Repos\SandboxCore11\SandboxCore11\wwwroot\fonts\fontawesome-webfont.woff"'
+2018-01-06 16:16:39.810 +00:00 [Information] Request finished in 573.8827ms 200 text/css
+2018-01-06 16:16:39.821 +00:00 [Information] Request finished in 532.1888ms 200 application/javascript
+2018-01-06 16:16:39.859 +00:00 [Information] Request finished in 209.1308ms 200 application/font-woff
+2018-01-06 16:16:39.927 +00:00 [Information] Request finished in 348.5308ms 200 text/css
+2018-01-06 16:48:10.531 +00:00 [Information] Executed DbCommand (91ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [b].[BrandId], [b].[Name]
+FROM [Brands] AS [b]
+2018-01-06 16:48:10.767 +00:00 [Information] Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[CategoryId], [c].[Name]
+FROM [Categories] AS [c]
+2018-01-06 16:48:10.807 +00:00 [Information] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [i].[InventoryItemId], [i].[BrandId], [i].[CategoryId], [i].[Description], [i].[Name], [i].[ReorderLevel], [i].[ReorderQuantity]
+FROM [InventoryItems] AS [i]
+2018-01-06 16:48:10.858 +00:00 [Information] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [s].[SupplierId], [s].[Name]
+FROM [Suppliers] AS [s]
+2018-01-06 16:48:11.465 +00:00 [Information] Executed DbCommand (216ms) [Parameters=[@p0='?' (Size = 100), @p1='?' (Size = 100), @p2='?' (Size = 100), @p3='?' (Size = 100), @p4='?', @p5='?', @p6='?', @p7='?', @p8='?', @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+DECLARE @toInsert0 TABLE ([Name] nvarchar(100), [_Position] [int]);
+INSERT INTO @toInsert0
+VALUES (@p0, 0),
+(@p1, 1);
+
+DECLARE @inserted0 TABLE ([BrandId] int, [_Position] [int]);
+MERGE [Brands] USING @toInsert0 AS i ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([Name])
+VALUES (i.[Name])
+OUTPUT INSERTED.[BrandId], i._Position
+INTO @inserted0;
+
+SELECT [t].[BrandId] FROM [Brands] t
+INNER JOIN @inserted0 i ON ([t].[BrandId] = [i].[BrandId])
+ORDER BY [i].[_Position];
+
+DECLARE @toInsert2 TABLE ([Name] nvarchar(100), [_Position] [int]);
+INSERT INTO @toInsert2
+VALUES (@p2, 0),
+(@p3, 1);
+
+DECLARE @inserted2 TABLE ([CategoryId] int, [_Position] [int]);
+MERGE [Categories] USING @toInsert2 AS i ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([Name])
+VALUES (i.[Name])
+OUTPUT INSERTED.[CategoryId], i._Position
+INTO @inserted2;
+
+SELECT [t].[CategoryId] FROM [Categories] t
+INNER JOIN @inserted2 i ON ([t].[CategoryId] = [i].[CategoryId])
+ORDER BY [i].[_Position];
+
+DELETE FROM [InventoryItems]
+WHERE [InventoryItemId] = @p4;
+SELECT @@ROWCOUNT;
+
+DELETE FROM [InventoryItems]
+WHERE [InventoryItemId] = @p5;
+SELECT @@ROWCOUNT;
+
+DELETE FROM [InventoryItems]
+WHERE [InventoryItemId] = @p6;
+SELECT @@ROWCOUNT;
+
+DELETE FROM [Suppliers]
+WHERE [SupplierId] = @p7;
+SELECT @@ROWCOUNT;
+
+DELETE FROM [Suppliers]
+WHERE [SupplierId] = @p8;
+SELECT @@ROWCOUNT;
+
+DECLARE @toInsert9 TABLE ([Name] nvarchar(max), [_Position] [int]);
+INSERT INTO @toInsert9
+VALUES (@p9, 0),
+(@p10, 1);
+
+DECLARE @inserted9 TABLE ([SupplierId] int, [_Position] [int]);
+MERGE [Suppliers] USING @toInsert9 AS i ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([Name])
+VALUES (i.[Name])
+OUTPUT INSERTED.[SupplierId], i._Position
+INTO @inserted9;
+
+SELECT [t].[SupplierId] FROM [Suppliers] t
+INNER JOIN @inserted9 i ON ([t].[SupplierId] = [i].[SupplierId])
+ORDER BY [i].[_Position];
+2018-01-06 16:48:11.680 +00:00 [Information] Executed DbCommand (94ms) [Parameters=[@p11='?', @p12='?', @p13='?', @p14='?', @p15='?', @p16='?', @p17='?' (Size = 1000), @p18='?' (Size = 100), @p19='?', @p20='?', @p21='?', @p22='?', @p23='?' (Size = 1000), @p24='?' (Size = 100), @p25='?', @p26='?', @p27='?', @p28='?', @p29='?' (Size = 1000), @p30='?' (Size = 100), @p31='?', @p32='?', @p33='?', @p34='?', @p35='?', @p36='?', @p37='?' (Size = 4000), @p38='?', @p39='?', @p40='?', @p41='?', @p42='?', @p43='?' (Size = 4000), @p44='?', @p45='?', @p46='?', @p47='?', @p48='?', @p49='?' (Size = 4000), @p50='?', @p51='?', @p52='?', @p53='?', @p54='?', @p55='?' (Size = 4000), @p56='?', @p57='?', @p58='?', @p59='?', @p60='?', @p61='?' (Size = 4000), @p62='?', @p63='?', @p64='?', @p65='?', @p66='?', @p67='?' (Size = 4000), @p68='?'], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+DELETE FROM [Brands]
+WHERE [BrandId] = @p11;
+SELECT @@ROWCOUNT;
+
+DELETE FROM [Brands]
+WHERE [BrandId] = @p12;
+SELECT @@ROWCOUNT;
+
+DELETE FROM [Categories]
+WHERE [CategoryId] = @p13;
+SELECT @@ROWCOUNT;
+
+DELETE FROM [Categories]
+WHERE [CategoryId] = @p14;
+SELECT @@ROWCOUNT;
+
+DECLARE @toInsert4 TABLE ([BrandId] int, [CategoryId] int, [Description] nvarchar(1000), [Name] nvarchar(100), [ReorderLevel] int, [ReorderQuantity] int, [_Position] [int]);
+INSERT INTO @toInsert4
+VALUES (@p15, @p16, @p17, @p18, @p19, @p20, 0),
+(@p21, @p22, @p23, @p24, @p25, @p26, 1),
+(@p27, @p28, @p29, @p30, @p31, @p32, 2);
+
+DECLARE @inserted4 TABLE ([InventoryItemId] int, [_Position] [int]);
+MERGE [InventoryItems] USING @toInsert4 AS i ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([BrandId], [CategoryId], [Description], [Name], [ReorderLevel], [ReorderQuantity])
+VALUES (i.[BrandId], i.[CategoryId], i.[Description], i.[Name], i.[ReorderLevel], i.[ReorderQuantity])
+OUTPUT INSERTED.[InventoryItemId], i._Position
+INTO @inserted4;
+
+SELECT [t].[InventoryItemId] FROM [InventoryItems] t
+INNER JOIN @inserted4 i ON ([t].[InventoryItemId] = [i].[InventoryItemId])
+ORDER BY [i].[_Position];
+
+DECLARE @toInsert7 TABLE ([ConfirmedDate] datetime2, [ExpectedDeliveryDate] datetime2, [ReceivedDate] datetime2, [RequestedDate] datetime2, [Status] nvarchar(max), [SupplierId] int, [_Position] [int]);
+INSERT INTO @toInsert7
+VALUES (@p33, @p34, @p35, @p36, @p37, @p38, 0),
+(@p39, @p40, @p41, @p42, @p43, @p44, 1),
+(@p45, @p46, @p47, @p48, @p49, @p50, 2),
+(@p51, @p52, @p53, @p54, @p55, @p56, 3),
+(@p57, @p58, @p59, @p60, @p61, @p62, 4),
+(@p63, @p64, @p65, @p66, @p67, @p68, 5);
+
+DECLARE @inserted7 TABLE ([PurchaseOrderId] int, [_Position] [int]);
+MERGE [PurchaseOrders] USING @toInsert7 AS i ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([ConfirmedDate], [ExpectedDeliveryDate], [ReceivedDate], [RequestedDate], [Status], [SupplierId])
+VALUES (i.[ConfirmedDate], i.[ExpectedDeliveryDate], i.[ReceivedDate], i.[RequestedDate], i.[Status], i.[SupplierId])
+OUTPUT INSERTED.[PurchaseOrderId], i._Position
+INTO @inserted7;
+
+SELECT [t].[PurchaseOrderId] FROM [PurchaseOrders] t
+INNER JOIN @inserted7 i ON ([t].[PurchaseOrderId] = [i].[PurchaseOrderId])
+ORDER BY [i].[_Position];
+2018-01-06 16:48:11.886 +00:00 [Information] User profile is available. Using '"C:\Users\rosss\AppData\Local\ASP.NET\DataProtection-Keys"' as key repository and Windows DPAPI to encrypt keys at rest.
+2018-01-06 16:48:13.176 +00:00 [Information] Request starting HTTP/1.1 GET http://localhost:61463/  
+2018-01-06 16:48:14.095 +00:00 [Information] Executing action method "SandboxCore11.Features.Home.HomeController.Index (SandboxCore11)" with arguments (null) - ModelState is Valid
+2018-01-06 16:48:17.111 +00:00 [Information] Executing ViewResult, running view at path "/Features/Home/Index.cshtml".
+2018-01-06 16:48:17.575 +00:00 [Information] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [po].[PurchaseOrderId], [po].[ConfirmedDate], [po].[ExpectedDeliveryDate], [po].[ReceivedDate], [po].[RequestedDate], [po].[Status], [po].[SupplierId], [s].[SupplierId], [s].[Name]
+FROM [PurchaseOrders] AS [po]
+INNER JOIN [Suppliers] AS [s] ON [po].[SupplierId] = [s].[SupplierId]
+2018-01-06 16:48:19.480 +00:00 [Information] Request starting HTTP/1.1 GET http://localhost:61463/lib/bootstrap/dist/css/bootstrap.css  
+2018-01-06 16:48:19.492 +00:00 [Information] Request starting HTTP/1.1 GET http://localhost:61463/css/sb-admin-2.css  
+2018-01-06 16:48:19.507 +00:00 [Information] Request starting HTTP/1.1 GET http://localhost:61463/css/font-awesome.css  
+2018-01-06 16:48:19.513 +00:00 [Information] Executed action "SandboxCore11.Features.Home.HomeController.Index (SandboxCore11)" in 5498.9189ms
+2018-01-06 16:48:19.541 +00:00 [Information] Sending file. Request path: '"/css/font-awesome.css"'. Physical path: '"C:\Repos\SandboxCore11\SandboxCore11\wwwroot\css\font-awesome.css"'
+2018-01-06 16:48:19.610 +00:00 [Information] Sending file. Request path: '"/lib/bootstrap/dist/css/bootstrap.css"'. Physical path: '"C:\Repos\SandboxCore11\SandboxCore11\wwwroot\lib\bootstrap\dist\css\bootstrap.css"'
+2018-01-06 16:48:19.624 +00:00 [Information] Sending file. Request path: '"/css/sb-admin-2.css"'. Physical path: '"C:\Repos\SandboxCore11\SandboxCore11\wwwroot\css\sb-admin-2.css"'
+2018-01-06 16:48:19.669 +00:00 [Information] Request starting HTTP/1.1 GET http://localhost:61463/css/site.css  
+2018-01-06 16:48:19.717 +00:00 [Information] Request starting HTTP/1.1 GET http://localhost:61463/lib/jquery/dist/jquery.js  
+2018-01-06 16:48:19.723 +00:00 [Information] Sending file. Request path: '"/lib/jquery/dist/jquery.js"'. Physical path: '"C:\Repos\SandboxCore11\SandboxCore11\wwwroot\lib\jquery\dist\jquery.js"'
+2018-01-06 16:48:19.730 +00:00 [Information] Sending file. Request path: '"/css/site.css"'. Physical path: '"C:\Repos\SandboxCore11\SandboxCore11\wwwroot\css\site.css"'
+2018-01-06 16:48:19.770 +00:00 [Information] Request finished in 277.7852ms 200 text/css
+2018-01-06 16:48:19.804 +00:00 [Information] Request finished in 6642.0346ms 200 text/html; charset=utf-8
+2018-01-06 16:48:19.833 +00:00 [Information] Request finished in 320.6645ms 200 text/css
+2018-01-06 16:48:19.836 +00:00 [Information] Request finished in 164.5632ms 200 text/css
+2018-01-06 16:48:19.905 +00:00 [Information] Request starting HTTP/1.1 GET http://localhost:61463/js/scripts/site.js?v=gh9TpiS0Oo24fjeUzCVkLsgqlMeG-FcwEfHMFjCRmHY  
+2018-01-06 16:48:20.023 +00:00 [Information] Request starting HTTP/1.1 GET http://localhost:61463/lib/bootstrap/dist/js/bootstrap.js  
+2018-01-06 16:48:20.038 +00:00 [Information] Request starting HTTP/1.1 GET http://localhost:61463/fonts/fontawesome-webfont.woff?v=4.2.0  
+2018-01-06 16:48:20.064 +00:00 [Information] Sending file. Request path: '"/js/scripts/site.js"'. Physical path: '"C:\Repos\SandboxCore11\SandboxCore11\wwwroot\js\scripts\site.js"'
+2018-01-06 16:48:20.066 +00:00 [Information] Sending file. Request path: '"/lib/bootstrap/dist/js/bootstrap.js"'. Physical path: '"C:\Repos\SandboxCore11\SandboxCore11\wwwroot\lib\bootstrap\dist\js\bootstrap.js"'
+2018-01-06 16:48:20.099 +00:00 [Information] Sending file. Request path: '"/fonts/fontawesome-webfont.woff"'. Physical path: '"C:\Repos\SandboxCore11\SandboxCore11\wwwroot\fonts\fontawesome-webfont.woff"'
+2018-01-06 16:48:20.157 +00:00 [Information] Request finished in 658.0328ms 200 text/css
+2018-01-06 16:48:20.203 +00:00 [Information] Request finished in 464.2904ms 200 application/javascript
+2018-01-06 16:48:20.260 +00:00 [Information] Request finished in 173.287ms 200 application/javascript
+2018-01-06 16:48:20.277 +00:00 [Information] Request finished in 270.7806ms 200 application/javascript
+2018-01-06 16:48:20.371 +00:00 [Information] Request finished in 452.3261ms 200 application/font-woff
+2018-01-06 16:51:44.350 +00:00 [Information] Executed DbCommand (87ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [b].[BrandId], [b].[Name]
+FROM [Brands] AS [b]
+2018-01-06 16:51:44.604 +00:00 [Information] Executed DbCommand (6ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[CategoryId], [c].[Name]
+FROM [Categories] AS [c]
+2018-01-06 16:51:44.644 +00:00 [Information] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [i].[InventoryItemId], [i].[BrandId], [i].[CategoryId], [i].[Description], [i].[Name], [i].[ReorderLevel], [i].[ReorderQuantity]
+FROM [InventoryItems] AS [i]
+2018-01-06 16:51:44.694 +00:00 [Information] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [s].[SupplierId], [s].[Name]
+FROM [Suppliers] AS [s]
+2018-01-06 16:51:45.246 +00:00 [Information] Executed DbCommand (153ms) [Parameters=[@p0='?' (Size = 100), @p1='?' (Size = 100), @p2='?' (Size = 100), @p3='?' (Size = 100), @p4='?', @p5='?', @p6='?', @p7='?', @p8='?', @p9='?' (Size = 4000), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+DECLARE @toInsert0 TABLE ([Name] nvarchar(100), [_Position] [int]);
+INSERT INTO @toInsert0
+VALUES (@p0, 0),
+(@p1, 1);
+
+DECLARE @inserted0 TABLE ([BrandId] int, [_Position] [int]);
+MERGE [Brands] USING @toInsert0 AS i ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([Name])
+VALUES (i.[Name])
+OUTPUT INSERTED.[BrandId], i._Position
+INTO @inserted0;
+
+SELECT [t].[BrandId] FROM [Brands] t
+INNER JOIN @inserted0 i ON ([t].[BrandId] = [i].[BrandId])
+ORDER BY [i].[_Position];
+
+DECLARE @toInsert2 TABLE ([Name] nvarchar(100), [_Position] [int]);
+INSERT INTO @toInsert2
+VALUES (@p2, 0),
+(@p3, 1);
+
+DECLARE @inserted2 TABLE ([CategoryId] int, [_Position] [int]);
+MERGE [Categories] USING @toInsert2 AS i ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([Name])
+VALUES (i.[Name])
+OUTPUT INSERTED.[CategoryId], i._Position
+INTO @inserted2;
+
+SELECT [t].[CategoryId] FROM [Categories] t
+INNER JOIN @inserted2 i ON ([t].[CategoryId] = [i].[CategoryId])
+ORDER BY [i].[_Position];
+
+DELETE FROM [InventoryItems]
+WHERE [InventoryItemId] = @p4;
+SELECT @@ROWCOUNT;
+
+DELETE FROM [InventoryItems]
+WHERE [InventoryItemId] = @p5;
+SELECT @@ROWCOUNT;
+
+DELETE FROM [InventoryItems]
+WHERE [InventoryItemId] = @p6;
+SELECT @@ROWCOUNT;
+
+DELETE FROM [Suppliers]
+WHERE [SupplierId] = @p7;
+SELECT @@ROWCOUNT;
+
+DELETE FROM [Suppliers]
+WHERE [SupplierId] = @p8;
+SELECT @@ROWCOUNT;
+
+DECLARE @toInsert9 TABLE ([Name] nvarchar(max), [_Position] [int]);
+INSERT INTO @toInsert9
+VALUES (@p9, 0),
+(@p10, 1);
+
+DECLARE @inserted9 TABLE ([SupplierId] int, [_Position] [int]);
+MERGE [Suppliers] USING @toInsert9 AS i ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([Name])
+VALUES (i.[Name])
+OUTPUT INSERTED.[SupplierId], i._Position
+INTO @inserted9;
+
+SELECT [t].[SupplierId] FROM [Suppliers] t
+INNER JOIN @inserted9 i ON ([t].[SupplierId] = [i].[SupplierId])
+ORDER BY [i].[_Position];
+2018-01-06 16:51:45.388 +00:00 [Information] Executed DbCommand (57ms) [Parameters=[@p11='?', @p12='?', @p13='?', @p14='?', @p15='?', @p16='?', @p17='?' (Size = 1000), @p18='?' (Size = 100), @p19='?', @p20='?', @p21='?', @p22='?', @p23='?' (Size = 1000), @p24='?' (Size = 100), @p25='?', @p26='?', @p27='?', @p28='?', @p29='?' (Size = 1000), @p30='?' (Size = 100), @p31='?', @p32='?', @p33='?', @p34='?', @p35='?', @p36='?', @p37='?' (Size = 4000), @p38='?', @p39='?', @p40='?', @p41='?', @p42='?', @p43='?' (Size = 4000), @p44='?', @p45='?', @p46='?', @p47='?', @p48='?', @p49='?' (Size = 4000), @p50='?', @p51='?', @p52='?', @p53='?', @p54='?', @p55='?' (Size = 4000), @p56='?', @p57='?', @p58='?', @p59='?', @p60='?', @p61='?' (Size = 4000), @p62='?', @p63='?', @p64='?', @p65='?', @p66='?', @p67='?' (Size = 4000), @p68='?'], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+DELETE FROM [Brands]
+WHERE [BrandId] = @p11;
+SELECT @@ROWCOUNT;
+
+DELETE FROM [Brands]
+WHERE [BrandId] = @p12;
+SELECT @@ROWCOUNT;
+
+DELETE FROM [Categories]
+WHERE [CategoryId] = @p13;
+SELECT @@ROWCOUNT;
+
+DELETE FROM [Categories]
+WHERE [CategoryId] = @p14;
+SELECT @@ROWCOUNT;
+
+DECLARE @toInsert4 TABLE ([BrandId] int, [CategoryId] int, [Description] nvarchar(1000), [Name] nvarchar(100), [ReorderLevel] int, [ReorderQuantity] int, [_Position] [int]);
+INSERT INTO @toInsert4
+VALUES (@p15, @p16, @p17, @p18, @p19, @p20, 0),
+(@p21, @p22, @p23, @p24, @p25, @p26, 1),
+(@p27, @p28, @p29, @p30, @p31, @p32, 2);
+
+DECLARE @inserted4 TABLE ([InventoryItemId] int, [_Position] [int]);
+MERGE [InventoryItems] USING @toInsert4 AS i ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([BrandId], [CategoryId], [Description], [Name], [ReorderLevel], [ReorderQuantity])
+VALUES (i.[BrandId], i.[CategoryId], i.[Description], i.[Name], i.[ReorderLevel], i.[ReorderQuantity])
+OUTPUT INSERTED.[InventoryItemId], i._Position
+INTO @inserted4;
+
+SELECT [t].[InventoryItemId] FROM [InventoryItems] t
+INNER JOIN @inserted4 i ON ([t].[InventoryItemId] = [i].[InventoryItemId])
+ORDER BY [i].[_Position];
+
+DECLARE @toInsert7 TABLE ([ConfirmedDate] datetime2, [ExpectedDeliveryDate] datetime2, [ReceivedDate] datetime2, [RequestedDate] datetime2, [Status] nvarchar(max), [SupplierId] int, [_Position] [int]);
+INSERT INTO @toInsert7
+VALUES (@p33, @p34, @p35, @p36, @p37, @p38, 0),
+(@p39, @p40, @p41, @p42, @p43, @p44, 1),
+(@p45, @p46, @p47, @p48, @p49, @p50, 2),
+(@p51, @p52, @p53, @p54, @p55, @p56, 3),
+(@p57, @p58, @p59, @p60, @p61, @p62, 4),
+(@p63, @p64, @p65, @p66, @p67, @p68, 5);
+
+DECLARE @inserted7 TABLE ([PurchaseOrderId] int, [_Position] [int]);
+MERGE [PurchaseOrders] USING @toInsert7 AS i ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([ConfirmedDate], [ExpectedDeliveryDate], [ReceivedDate], [RequestedDate], [Status], [SupplierId])
+VALUES (i.[ConfirmedDate], i.[ExpectedDeliveryDate], i.[ReceivedDate], i.[RequestedDate], i.[Status], i.[SupplierId])
+OUTPUT INSERTED.[PurchaseOrderId], i._Position
+INTO @inserted7;
+
+SELECT [t].[PurchaseOrderId] FROM [PurchaseOrders] t
+INNER JOIN @inserted7 i ON ([t].[PurchaseOrderId] = [i].[PurchaseOrderId])
+ORDER BY [i].[_Position];
+2018-01-06 16:51:45.485 +00:00 [Information] User profile is available. Using '"C:\Users\rosss\AppData\Local\ASP.NET\DataProtection-Keys"' as key repository and Windows DPAPI to encrypt keys at rest.
+2018-01-06 16:51:47.035 +00:00 [Information] Request starting HTTP/1.1 GET http://localhost:61463/  
+2018-01-06 16:51:47.915 +00:00 [Information] Executing action method "SandboxCore11.Features.Home.HomeController.Index (SandboxCore11)" with arguments (null) - ModelState is Valid
+2018-01-06 16:51:51.614 +00:00 [Information] Executing ViewResult, running view at path "/Features/Home/Index.cshtml".
+2018-01-06 16:51:52.070 +00:00 [Information] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [po].[PurchaseOrderId], [po].[ConfirmedDate], [po].[ExpectedDeliveryDate], [po].[ReceivedDate], [po].[RequestedDate], [po].[Status], [po].[SupplierId], [s].[SupplierId], [s].[Name]
+FROM [PurchaseOrders] AS [po]
+INNER JOIN [Suppliers] AS [s] ON [po].[SupplierId] = [s].[SupplierId]
+2018-01-06 16:51:53.964 +00:00 [Information] Executed action "SandboxCore11.Features.Home.HomeController.Index (SandboxCore11)" in 6179.3452ms
+2018-01-06 16:51:54.041 +00:00 [Information] Request finished in 7034.111ms 200 text/html; charset=utf-8

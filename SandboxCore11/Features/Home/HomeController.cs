@@ -30,5 +30,10 @@
         {
             return View();
         }
+
+        public IActionResult WhoAmI()
+        {
+            return View();
+        }
     }
 }
